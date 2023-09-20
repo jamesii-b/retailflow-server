@@ -22,6 +22,7 @@ const checkout = async (req, res) => {
       price: product.price,
       pID: req.body.pid,
       quantity: req.body.quantity,
+      size:product.size,
     });
     await orderCreate.save();
 

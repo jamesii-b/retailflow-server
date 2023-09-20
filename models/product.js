@@ -44,6 +44,9 @@ const ProductSchema = new mongoose.Schema({
   otherAttribute: {
     type: String,
   },
+  size:{
+    type: String,
+  },
 });
 const Product = mongoose.model("Product", ProductSchema);
 module.exports = Product;
