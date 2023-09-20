@@ -28,6 +28,12 @@ const ProductSchema = new mongoose.Schema({
   subCategory: {
     type: String,
   },
+  threshold: {
+    type: String,
+  },
+  sName: {
+    type: String,
+  },
   selfLocation: {
     // required: true,
     type: String,

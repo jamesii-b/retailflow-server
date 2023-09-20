@@ -24,12 +24,22 @@ const {
 
 
 //routes
+/*
 app.post("/add-product", addProduct);
 app.get("/search/:searchQuery", searchProduct);
 app.get("/products", getAllProducts);
 app.get("/products/:cat", getProductsByCategory);
 app.get("/products/:cat/:subCat", getProductsbySubCat);
 app.get("/product/:pid", getSpecificProduct);
+*/
+const productRoute=require("./routes/productRoute")
+app.use("/", productRoute);
+const checkout=require("./controller/checkout")
+
+// neeed two parameters, pid and quantity
+app.post("/checkout",checkout)
+
+
 
 // here to debug!
 // app.get("/add-product", (req, res) => {
