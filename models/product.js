@@ -31,6 +31,9 @@ const ProductSchema = new mongoose.Schema({
   threshold: {
     type: String,
   },
+  size: {
+    type: String,
+  },
   sName: {
     type: String,
   },
@@ -42,9 +45,6 @@ const ProductSchema = new mongoose.Schema({
     type: String,
   },
   otherAttribute: {
-    type: String,
-  },
-  size:{
     type: String,
   },
 });

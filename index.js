@@ -39,6 +39,8 @@ const checkout=require("./controller/checkout")
 // neeed two parameters, pid and quantity
 app.post("/checkout",checkout)
 
+const sales=require("./controller/sales")
+app.get("/sales",sales)
 
 
 // here to debug!

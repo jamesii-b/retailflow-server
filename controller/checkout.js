@@ -19,10 +19,11 @@ const checkout = async (req, res) => {
     const orderCreate = new Order({
       orderID: Date.now().toString(),
       pName: product.pName,
-      price: product.price,
+      priceRate: product.priceRate,
       pID: req.body.pid,
       quantity: req.body.quantity,
-      size:product.size,
+      size: product.size,
+      totalAmount: product.priceRate * req.body.quantity,
     });
     await orderCreate.save();
 
@@ -32,7 +33,7 @@ const checkout = async (req, res) => {
       { $inc: { quantity: -req.body.quantity } } // Subtract the quantity
     );
 
-    res.status(201).json({ msg: "Checkout success" });
+    res.status(201).json({ success: true, order: orderCreate });
   } catch (e) {
     console.error(e);
     return res.status(500).json({ msg: "Internal Server Error" });

@@ -1,12 +1,14 @@
 const mongoose = require("mongoose");
+const moment = require("moment-timezone");
+
 const orderSchema = new mongoose.Schema({
-  orderID:{
+  orderID: {
     type: String,
   },
   pName: {
     type: String,
   },
-  price: {
+  priceRate: {
     type: Number,
     required: true,
   },
@@ -14,7 +16,15 @@ const orderSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  size:{
+  size: {
+    type: String,
+    required: true,
+  },
+  orderDate: {
+    type: Date,
+    default: moment().tz("Asia/Kathmandu"),
+  },
+  totalAmount:{
     type:Number,
     required:true
   }
