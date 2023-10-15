@@ -1,25 +1,11 @@
 const Product = require("../models/product");
-// {
-//   pID,
-// pName,
-// expireDate,
-// price,
-// quantity,
-// category,
-// subCategory,
-// selfLocation,
-// image,
-// otherAttribute,
-// supplier,
-// threshold,
-// }
 
 const addProduct = async (req, res) => {
   /* R indicates Reques */
   const RpID = req.body.pID;
   const RpName = req.body.pName;
   const RexpireDate = req.body.expireDate;
-  const Rprice = req.body.price;
+  const Rprice = req.body.priceRate;
   const Rquantity = req.body.quantity;
   const Rcategory = req.body.category;
   const RsubCategory = req.body.subCategory;
@@ -29,14 +15,20 @@ const addProduct = async (req, res) => {
   const Rsupplier = req.body.supplier;
   const Rthreshold = req.body.threshold;
   const Rsize = req.body.size;
-  console.log(req.body);
+  console.log("requested id");
+
+  console.log(RpID);
+  console.log(Rquantity);
+  if (Rquantity < 0) {
+    return res.status(400).json({ msg: "Quantity is missing or invalid" });
+  }
   try {
     const existingProduct = await Product.findOne({
       pID: RpID,
-      pName: RpName,
-      expireDate: RexpireDate,
-      price: Rprice,
-      supplier: Rsupplier,
+      // pName: RpName,
+      // expireDate: RexpireDate,
+      // priceRate: Rprice,
+      // supplier: Rsupplier,
       // size:Rsize,
       // threshold:Rthreshold,
       // category:Rcategory,
@@ -46,8 +38,20 @@ const addProduct = async (req, res) => {
       // otherAttribute:RotherAttribute,
     });
     if (existingProduct) {
+      console.log("existing Product", existingProduct);
       // If a matching product exists, update its quantity
-      existingProduct.quantity= parseInt(existingProduct.quantity) + parseInt(Rquantity);
+      if (existingProduct.pName !== RpName && !isNaN(RpName)) {
+        return res
+          .status(400)
+          .json({
+            msg:
+              "Product name does not match | " +
+              existingProduct.pName +
+              " already exists",
+          });
+      }
+
+      existingProduct.quantity += parseInt(Rquantity);
       await existingProduct.save();
       res.status(200).json({ msg: "Product quantity updated successfully" });
     } else {
@@ -55,7 +59,7 @@ const addProduct = async (req, res) => {
         pID: req.body.pID,
         pName: req.body.pName,
         expireDate: req.body.expireDate,
-        price: req.body.price,
+        priceRate: req.body.priceRate,
         quantity: req.body.quantity,
         category: req.body.category,
         subCategory: req.body.subCategory,

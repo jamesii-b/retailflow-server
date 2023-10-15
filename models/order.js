@@ -18,16 +18,15 @@ const orderSchema = new mongoose.Schema({
   },
   size: {
     type: String,
-    required: true,
+    // required: true,
   },
   orderDate: {
     type: Date,
-    default: moment().tz("Asia/Kathmandu"),
   },
-  totalAmount:{
-    type:Number,
-    required:true
-  }
+  totalAmount: {
+    type: Number,
+    required: true,
+  },
 });
 
 const Order = mongoose.model("Order", orderSchema);

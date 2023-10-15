@@ -6,16 +6,18 @@ const Product = require("../models/product");
 const checkout = async (req, res) => {
   try {
     const pId = req.body.pid;
-    console.log(pId);
     const Response = await axios.get(`http://localhost:5000/product/${pId}`);
 
     const productResponse = Response.data.product;
-
     if (!productResponse) {
       // Handle the case where the product is not found
       return res.status(404).json({ msg: "Product not found" });
     }
     const product = productResponse[0];
+    if (parseInt(product.quantity) < parseInt(req.body.quantity)) {
+      return res.status(404).json({ msg: "Not enough quantity" });
+    }
+
     const orderCreate = new Order({
       orderID: Date.now().toString(),
       pName: product.pName,
@@ -24,6 +26,7 @@ const checkout = async (req, res) => {
       quantity: req.body.quantity,
       size: product.size,
       totalAmount: product.priceRate * req.body.quantity,
+      orderDate: Date.now().toString(),
     });
     await orderCreate.save();
 

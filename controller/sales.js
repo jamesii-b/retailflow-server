@@ -1,13 +1,14 @@
+// controllers/salesController.js
 const Order = require("../models/order");
 
-const sales = async (req, res) => {
+async function getAllSales(req, res) {
   try {
-    const salesData = await Order.find({}).exec();
+    const salesData = await Order.find();
     res.json(salesData);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });
   }
-};
+}
 
-module.exports = sales;
+module.exports = getAllSales;

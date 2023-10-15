@@ -8,6 +8,8 @@ const {
 } = require("../controller/getProducts");
 const addProduct = require("../controller/addProduct");
 const searchProduct = require("../controller/searchProduct");
+const checkout = require("../controller/checkout");
+
 
 
 router.post("/add-product", addProduct);
@@ -16,5 +18,7 @@ router.get("/products", getAllProducts);
 router.get("/products/:cat", getProductsByCategory);
 router.get("/products/:cat/:subCat", getProductsbySubCat);
 router.get("/product/:pid", getSpecificProduct);
+router.post("/checkout", checkout);
+
 
 module.exports = router;
