@@ -1,9 +1,6 @@
 const nodeMailer = require("nodemailer");
 
 async function sendMail(recepient, mailData, subject, text) {
-  console.log("request on sendmail");
-  console.log(process.env.EMAIL);
-  console.log(process.env.PASSWORD);
   let config = {
     service: "gmail",
     auth: {

@@ -19,10 +19,10 @@ app.use("/", productRoute);
 const salesRoute = require("./routes/salesRoute");
 app.use("/", salesRoute);
 
-const sendmail = require("./routes/functionalities");
-app.use("/notifyadmin", sendmail);
-const callroute=require("./config/autocallroute")
-callroute("http://localhost:5000/notifyadmin", "9");
+const functionalities = require("./routes/functionalities");
+app.use("/notifyadmin", functionalities);
+const sendNotificationIfLowItemsChanged = require("./config/autonotify");
+sendNotificationIfLowItemsChanged("http://localhost:5000/notifyadmin");
 
 // ws here ~
 //websockets

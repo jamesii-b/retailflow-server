@@ -1,6 +1,5 @@
 // check if the thresholdData is less then the quantityData
 const Product = require("../models/product");
-checkInventory();
 
 async function checkInventory() {
   try {
@@ -9,7 +8,6 @@ async function checkInventory() {
 
     for (const item of salesData) {
       if (item.quantity < parseInt(item.threshold)) {
-        console.log(`Low inventory: ${item.pName}`);
         const lowItem = {
           pID: item.pID,
           pName: item.pName,
