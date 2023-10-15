@@ -6,12 +6,10 @@ dotenv.config();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 const path = require("path");
-//  dbConnection()
-try {
-  const dbConnection = require("./lib/dbConnection");
-} catch (err) {
-  console.log("Error in connecting to database");
-  console.log(err);
+
+ dbConnection()
+async function dbConnection() {
+  await require("./lib/dbConnection");
 }
 
 const productRoute = require("./routes/productRoute");

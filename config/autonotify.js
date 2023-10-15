@@ -5,8 +5,11 @@ const checkInventory = require("../utils/checkinventory");
 
 let previousLowItems = []; // Store the previous low items
 
-function sendNotificationIfLowItemsChanged(url) {
+async function sendNotificationIfLowItemsChanged(url) {
   // Check the inventory for low items
+
+  try{
+    
   checkInventory().then((currentLowItems) => {
     if (currentLowItems.length > 0) {
       // Compare current low items with previous low items
@@ -36,14 +39,17 @@ function sendNotificationIfLowItemsChanged(url) {
       previousLowItems = currentLowItems;
     }
   });
+
+  }
+  catch(error){
+    console.log("error here")
+    console.log(error);
+  }
 }
 
 // Schedule the cron job to periodically check the inventory and send notifications
-cron.schedule("0 * * * *", () => {
-  console.log(
-    "Checking inventory and sending notifications if low items have changed..."
-  );
-  sendNotificationIfLowItemsChanged();
+cron.schedule("* * * * * *", () => {
+  sendNotificationIfLowItemsChanged(url);
 });
 
-module.exports=sendNotificationIfLowItemsChanged;
+module.exports = sendNotificationIfLowItemsChanged;
