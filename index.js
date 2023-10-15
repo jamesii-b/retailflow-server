@@ -20,7 +20,9 @@ const salesRoute = require("./routes/salesRoute");
 app.use("/", salesRoute);
 
 const sendmail = require("./routes/functionalities");
-app.use("/sendmail", sendmail);
+app.use("/notifyadmin", sendmail);
+const callroute=require("./config/autocallroute")
+callroute("http://localhost:5000/notifyadmin", "9");
 
 // ws here ~
 //websockets
@@ -52,8 +54,6 @@ wss.on("connection", (ws) => {
     }
   });
 
-  // ws.send("hello from the server");
-  // Send JSON data from the database when a WebSocket connection is established
   Order.find({})
     .exec()
     .then((salesData) => {
@@ -63,6 +63,7 @@ wss.on("connection", (ws) => {
       console.error("Error fetching data:", error);
     });
 });
+
 server.listen(5000, () => {
   console.log("websocket on port 5000");
   console.log("ws://localhost:5000");

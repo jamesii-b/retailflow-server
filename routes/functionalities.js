@@ -1,7 +1,7 @@
 const express = require("express");
 const router = require("express").Router();
 
-const sendMail = require("../controller/sendMail");
+const notifyAdminMail = require("../controller/notifyadmin");
 
-router.post("/", sendMail);
+router.get("/", notifyAdminMail);
 module.exports = router;
