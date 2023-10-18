@@ -19,8 +19,10 @@ app.use("/", productRoute);
 const salesRoute = require("./routes/salesRoute");
 app.use("/", salesRoute);
 
-const functionalities = require("./routes/functionalities");
-app.use("/notifyadmin", functionalities);
+const notifyQuantity = require("./routes/notifyQuantity");
+app.use("/notifyadmin", notifyQuantity);
+const notifyExpiry = require("./routes/notifyExpiry");
+app.use("/notifyadmin", notifyExpiry);
 const sendNotificationIfLowItemsChanged = require("./config/autonotifyLowItems");
 const sendNotificationIfExpiryItemsChanged = require("./config/autonotifyExpiryItems");
 sendNotificationIfLowItemsChanged("http://localhost:5000/notifyadmin/quantity");

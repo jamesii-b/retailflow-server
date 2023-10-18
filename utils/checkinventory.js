@@ -1,6 +1,6 @@
 // check if the thresholdData is less then the quantityData
 const Product = require("../models/product");
-const ProductItem = require("../models/indvidualproductitem");
+const ProductItem = require("../models/productItem");
 const mongoose = require("mongoose");
 
 async function checkInventory(returnData) {
@@ -21,9 +21,7 @@ async function checkInventory(returnData) {
         await lowItemsallData.push(item);
       }
     }
-    for (i in lowItems) {
-      console.log(lowItems + "returning low items");
-    }
+
     returnData = returnData.toLowerCase();
     if (returnData == "lowitems") {
       return lowItems;
@@ -36,7 +34,6 @@ async function checkInventory(returnData) {
   }
 }
 async function groupedData(parentId) {
-  console.log(parentId);
   try {
     const result = await ProductItem.aggregate([
       {

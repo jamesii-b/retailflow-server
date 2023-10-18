@@ -1,4 +1,5 @@
 const Product = require("../models/product");
+const ProductItem = require("../models/productItem");
 
 checkExpiry = async () => {
   try {
