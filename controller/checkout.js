@@ -5,8 +5,9 @@ const Order = require("../models/order");
 const Product = require("../models/product");
 const checkout = async (req, res) => {
   try {
+    const ID=req.body.ID
     const pId = req.body.pid;
-    const Response = await axios.get(`http://localhost:5000/product/${pId}`);
+    const Response = await axios.get(`http://localhost:5000/product/${ID}`);
 
     const productResponse = Response.data.product;
     if (!productResponse) {

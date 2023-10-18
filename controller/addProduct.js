@@ -1,82 +1,60 @@
+const mongoose = require("mongoose");
+const ProductItem = require("../models/indvidualproductitem");
 const Product = require("../models/product");
 
 const addProduct = async (req, res) => {
-  /* R indicates Reques */
   const RpID = req.body.pID;
   const RpName = req.body.pName;
-  const RexpireDate = req.body.expireDate;
-  const Rprice = req.body.priceRate;
-  const Rquantity = req.body.quantity;
-  const Rcategory = req.body.category;
-  const RsubCategory = req.body.subCategory;
-  const RselfLocation = req.body.selfLocation;
-  const Rimage = req.body.image;
-  const RotherAttribute = req.body.otherAttribute;
-  const Rsupplier = req.body.supplier;
-  const Rthreshold = req.body.threshold;
-  const Rsize = req.body.size;
-  console.log("requested id");
+  const productDetails = req.body.products;
 
-  console.log(RpID);
-  console.log(Rquantity);
-  if (Rquantity < 0) {
-    return res.status(400).json({ msg: "Quantity is missing or invalid" });
+  if (!productDetails || !Array.isArray(productDetails)) {
+    return res.status(400).json({ msg: "Invalid product details" });
   }
-  try {
-    const existingProduct = await Product.findOne({
-      pID: RpID,
-      // pName: RpName,
-      // expireDate: RexpireDate,
-      // priceRate: Rprice,
-      // supplier: Rsupplier,
-      // size:Rsize,
-      // threshold:Rthreshold,
-      // category:Rcategory,
-      // subCategory:RsubCategory,
-      // selfLocation:RselfLocation,
-      // image:Rimage,
-      // otherAttribute:RotherAttribute,
-    });
-    if (existingProduct) {
-      console.log("existing Product", existingProduct);
-      // If a matching product exists, update its quantity
-      if (existingProduct.pName !== RpName && !isNaN(RpName)) {
-        return res
-          .status(400)
-          .json({
-            msg:
-              "Product name does not match | " +
-              existingProduct.pName +
-              " already exists",
-          });
-      }
 
-      existingProduct.quantity += parseInt(Rquantity);
-      await existingProduct.save();
-      res.status(200).json({ msg: "Product quantity updated successfully" });
-    } else {
-      const productAdd = new Product({
-        pID: req.body.pID,
-        pName: req.body.pName,
-        expireDate: req.body.expireDate,
-        priceRate: req.body.priceRate,
-        quantity: req.body.quantity,
-        category: req.body.category,
-        subCategory: req.body.subCategory,
-        selfLocation: req.body.selfLocation,
-        image: req.body.image,
-        otherAttribute: req.body.otherAttribute,
-        sName: req.body.supplier,
-        threshold: req.body.threshold,
-        size: req.body.size,
+  console.log(req.body);
+
+  try {
+    existingProductGroup = await Product.findOne({ pID: RpID });
+    if (!existingProductGroup) {
+      const newProductGroup = new Product({
+        pID: RpID,
+        pName: RpName,
+        category: req.body.category || "null", // Correct default values
+        subCategory: req.body.subCategory || "null",
+        selfLocation: req.body.selfLocation || "null",
+        image: req.body.image || "null",
+        otherAttribute: req.body.otherAttribute || "null",
+        size: req.body.size || "null",
+        sName: req.body.sName || "null",
+        threshold: parseInt(req.body.threshold) || 0, // Correct default value and parse as integer
       });
 
-      await productAdd.save();
-      res.status(201).json({ msg: "New Product added successfully" });
+      await newProductGroup.save();
+
+      for (const product of productDetails) {
+        console.log("product.expireDate\n");
+        console.log(product.expireDate);
+        console.log(product.quantity);
+        console.log("product.quantity");
+        for (let i = 0; i < product.quantity; i++) {
+          const productAdd = new ProductItem({
+            expireDate: product.expireDate,
+            group: newProductGroup._id,
+          });
+          await productAdd.save();
+        }
+      }
+
+      return res.json({ msg: "ProductItem added successfully" });
+    } else {
+      console.log("product already exist");
     }
   } catch (e) {
     console.error(e);
-    return res.status(500).json({ msg: "Internal Server Error" });
+    return res
+      .status(500)
+      .json({ msg: "Internal Server Error | Failed to add product" });
   }
 };
+
 module.exports = addProduct;

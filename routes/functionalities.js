@@ -1,7 +1,9 @@
 const express = require("express");
 const router = require("express").Router();
 
-const notifyAdminMail = require("../controller/notifyadmin");
+const notifyQuantity = require("../controller/notifyQuantity");
 
-router.get("/", notifyAdminMail);
+router.get("/quantity", notifyQuantity);
+// const notifyExpiry = require("../controller/notifyExpiry");
+// router.get("/expiry", notifyExpiry);
 module.exports = router;

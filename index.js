@@ -1,16 +1,18 @@
 const express = require("express");
 const app = express();
 
+app.use(express.json()); // This middleware parses JSON request bodies
+
 const dotenv = require("dotenv");
 dotenv.config();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 const path = require("path");
 
- dbConnection()
 async function dbConnection() {
   await require("./lib/dbConnection");
 }
+dbConnection();
 
 const productRoute = require("./routes/productRoute");
 app.use("/", productRoute);
@@ -19,8 +21,17 @@ app.use("/", salesRoute);
 
 const functionalities = require("./routes/functionalities");
 app.use("/notifyadmin", functionalities);
-const sendNotificationIfLowItemsChanged = require("./config/autonotify");
-sendNotificationIfLowItemsChanged("http://localhost:5000/notifyadmin");
+const sendNotificationIfLowItemsChanged = require("./config/autonotifyLowItems");
+const sendNotificationIfExpiryItemsChanged = require("./config/autonotifyExpiryItems");
+sendNotificationIfLowItemsChanged("http://localhost:5000/notifyadmin/quantity");
+// sendNotificationIfExpiryItemsChanged(
+//   "http://localhost:5000/notifyadmin/expiry"
+// );
+
+app.use((req, res, next) => {
+  console.log(`Request URL: ${req.url}`);
+  next(); // Continue with the request handling
+});
 
 // ws here ~
 //websockets

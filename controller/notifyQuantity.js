@@ -3,7 +3,7 @@ mailData = `<center><h1>Cavetown Mart</h1></center><h3>Hi Admin,</h3><br /><div>
 const sendMail = require("../utils/sendMail.js");
 const checkInventory = require("../utils/checkinventory.js");
 const recepient = process.env.ADMIN_EMAIL;
-const subject = "Inventory Running Low";
+const subject = "Inventory Running Low !";
 
 function concatdata(resObj) {
   for (i in resObj) {
@@ -13,20 +13,20 @@ function concatdata(resObj) {
 }
 
 text = "Inventory Running Low";
-async function notifyAdminMail(req, res) {
+async function notifyQuantity(req, res) {
   try {
-    resObj = await checkInventory();
-    concatdata(resObj);
+    const currentLowItems = await checkInventory("lowitems");
+    console.log("Sending low quantity email", currentLowItems);
+   await concatdata(currentLowItems);
     sendMail(recepient, mailData, subject, text);
+    console.log(mailData);
+    console.log("Low quantity email sent");
     res.status(200).send("Email sent");
   } catch (err) {
     console.log(err);
     resObj = [];
     res.status(500).send("Error sending email");
   }
-  for (i in resObj) {
-    console.log(resObj[i]);
-  }
 }
 
-module.exports = notifyAdminMail;
+module.exports = notifyQuantity;

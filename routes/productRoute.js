@@ -13,11 +13,11 @@ const checkout = require("../controller/checkout");
 
 
 router.post("/add-product", addProduct);
-router.get("/search/:searchQuery", searchProduct);
+router.get("/search/:searchQuery?", searchProduct);
 router.get("/products", getAllProducts);
 router.get("/products/:cat", getProductsByCategory);
 router.get("/products/:cat/:subCat", getProductsbySubCat);
-router.get("/product/:pid", getSpecificProduct);
+router.get("/product/:id", getSpecificProduct);
 router.post("/checkout", checkout);
 
 

@@ -3,49 +3,42 @@ const mongoose = require("mongoose");
 const ProductSchema = new mongoose.Schema({
   pID: {
     type: String,
+    unique: true,
+  },
+  threshold: {
+    type: Number,
+    default: 0,
   },
   pName: {
     type: String,
-    // required: true,
-    // unique: true,
-  },
-  expireDate: {
-    type: Date,
-    // required: true,
-  },
-  priceRate: {
-    type: Number,
-    // required: true,
-  },
-  quantity: {
-    type: Number,
-    required: true,
   },
   category: {
-    // required: true,
+    default: "null",
     type: String,
   },
   subCategory: {
     type: String,
-  },
-  threshold: {
-    type: String,
-  },
-  size: {
-    type: String,
-  },
-  sName: {
-    type: String,
+    default: "null",
   },
   selfLocation: {
-    // required: true,
     type: String,
+    default: "null",
   },
   image: {
     type: String,
+    default: "null",
   },
   otherAttribute: {
     type: String,
+    default: "null",
+  },
+  size: {
+    type: String,
+    default: "null",
+  },
+  sName: {
+    type: String,
+    default: "null",
   },
 });
 const Product = mongoose.model("Product", ProductSchema);

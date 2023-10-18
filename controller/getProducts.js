@@ -19,8 +19,8 @@ const getProductsbySubCat = async (req, res) => {
 };
 
 const getSpecificProduct = async (req, res) => {
-  const product_id = req.params.pid;
-  const product = await Product.find({ pID: product_id });
+  const ID=req.params.id
+  const product = await Product.find({ ID: ID });
   if (product.length === 0 || !product) {
     return res.json({
       success: false,
