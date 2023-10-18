@@ -6,7 +6,6 @@ const checkInventory = require("../utils/checkinventory");
 let previousLowItems = []; // Store the previous low items
 
 async function sendNotificationIfLowItemsChanged(url) {
-
   try {
     checkInventory("lowitems").then((currentLowItems) => {
       if (currentLowItems.length > 0) {

@@ -1,8 +1,6 @@
 // check if the thresholdData is less then the quantityData
 const Product = require("../models/product");
-const ProductItem = require("../models/productItem");
-const mongoose = require("mongoose");
-
+const groupedData=require("../utils/groupedData.js")
 async function checkInventory(returnData) {
   try {
     const salesData = await Product.find();
@@ -33,31 +31,6 @@ async function checkInventory(returnData) {
     return null; // or handle the error as needed
   }
 }
-async function groupedData(parentId) {
-  try {
-    const result = await ProductItem.aggregate([
-      {
-        $match: {
-          group: new mongoose.Types.ObjectId(parentId), // Use the 'new' keyword here
-        },
-      },
-      {
-        $group: {
-          _id: "$group",
-          totalCount: { $sum: 1 }, // Count the number of items in each group
-        },
-      },
-    ]);
-    if (result.length > 0) {
-      return result[0].totalCount;
-    } else {
-      return 0;
-    }
-    //result contains the parent id and total count
-  } catch (error) {
-    console.error(error);
-    return null; // or handle the error as needed
-  }
-}
+
 
 module.exports = checkInventory;

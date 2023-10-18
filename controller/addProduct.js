@@ -32,10 +32,6 @@ const addProduct = async (req, res) => {
       await newProductGroup.save();
 
       for (const product of productDetails) {
-        console.log("product.expireDate\n");
-        console.log(product.expireDate);
-        console.log(product.quantity);
-        console.log("product.quantity");
         for (let i = 0; i < product.quantity; i++) {
           const productAdd = new ProductItem({
             expireDate: product.expireDate,
