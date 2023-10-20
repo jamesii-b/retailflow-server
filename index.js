@@ -28,8 +28,8 @@ const notifyExpiry = require("./routes/notifyExpiry");
 app.use("/notifyadmin", notifyExpiry);
 const sendNotificationIfLowItemsChanged = require("./config/autonotifyLowItems");
 const sendNotificationIfExpiryItemsChanged = require("./config/autonotifyExpiryItems");
-sendNotificationIfExpiryItemsChanged("http://localhost:5000/notifyadmin/expiry");
-sendNotificationIfLowItemsChanged("http://localhost:5000/notifyadmin/quantity");
+// sendNotificationIfExpiryItemsChanged("http://localhost:5000/notifyadmin/expiry");
+// sendNotificationIfLowItemsChanged("http://localhost:5000/notifyadmin/quantity");
 
 
 

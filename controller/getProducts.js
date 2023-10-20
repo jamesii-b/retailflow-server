@@ -1,3 +1,4 @@
+const ProductItem = require("../models/productItem")
 const Product = require("../models/product");
 
 const getAllProducts = async (req, res) => {
@@ -18,17 +19,30 @@ const getProductsbySubCat = async (req, res) => {
   return res.json({ success: true, products });
 };
 
+
 const getSpecificProduct = async (req, res) => {
-  const ID=req.params.id
-  const product = await Product.find({ ID: ID });
-  if (product.length === 0 || !product) {
-    return res.json({
+  try {
+    const ID = req.params.id;
+    const product = await ProductItem.find({ ID: ID });
+
+    if (product.length === 0 || !product[0]) {
+      return res.json({
+        success: false,
+        message: "Product not found",
+      });
+    }
+
+    const productFamily = await Product.find({ _id: product[0].group.toString() });
+
+    return res.json({ success: true, productFamily, product });
+  } catch (error) {
+    return res.status(500).json({
       success: false,
-      message: "Product not found",
+      message: "An error occurred while processing your request.",
     });
   }
-  return res.json({ success: true, product });
 };
+
 module.exports = {
   getAllProducts,
   getProductsByCategory,
