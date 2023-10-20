@@ -19,6 +19,10 @@ const ProductItemSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Product", // Reference to the ProductGroup model
   },
+  productAdded: {
+    type: Date,
+    default: Date.now()
+  }
 });
 const ProductItem = mongoose.model("ProductItem", ProductItemSchema);
 module.exports = ProductItem;
