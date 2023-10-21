@@ -4,6 +4,7 @@ const moment = require("moment-timezone");
 const orderSchema = new mongoose.Schema({
   orderID: {
     type: String,
+    //default date.now()
   },
   pName: {
     type: String,

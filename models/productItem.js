@@ -15,7 +15,7 @@ const ProductItemSchema = new mongoose.Schema({
   quantity: {
     type: Number,
   },
-  group: {
+  productFamily: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Product", // Reference to the ProductGroup model
   },
