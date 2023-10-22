@@ -2,8 +2,8 @@ const express = require("express");
 
 const Router = express.Router();
 
-const { salesPageWidgetData } = require("../controller/graphData");
+const { salesGraphData } = require("../controller/graphData");
 
-Router.get("/saleswidget", salesPageWidgetData);
+Router.get("/salesgraph", salesGraphData);
 
 module.exports = Router;

@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const axios = require("axios");
 // const { start } = require("repl");
 
-async function salesPageWidgetData(req, res) {
+async function salesGraphData(req, res) {
     const query = req.query.t
     resSales = await axios.get("http://localhost:5000/sales?t=" + query)
     // console.log("response from sales page",resSales2)
@@ -57,4 +57,4 @@ async function calculateData(salesData) {
 
 }
 
-module.exports = { salesPageWidgetData };
+module.exports = { salesGraphData };
