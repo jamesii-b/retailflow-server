@@ -1,8 +1,6 @@
 const express = require("express");
 const app = express();
 
-app.use(express.json()); // This middleware parses JSON request bodies
-
 const dotenv = require("dotenv");
 dotenv.config();
 app.use(express.json());
@@ -59,21 +57,6 @@ wss.on("connection", (ws) => {
           });
         });
     }
-  });
-
-  data = {
-    name: "jamesB",
-    keysurname: "Bhattari",
-  }
-  wss.clients.forEach((client) => {
-
-    client.send(JSON.stringify(data));
-
-
-  });
-  wss.clients.forEach((client) => {
-
-    client.send("Welcome to the server!");
   });
 
   Order.find({})

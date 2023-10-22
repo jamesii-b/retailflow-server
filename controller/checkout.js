@@ -48,6 +48,7 @@ const checkout = async (req, res) => {
     const newOrder = new Order({
       totalAmount: totalPrice,
       products: itemsToSave,
+      orderDate: Date.now(),
     })
 
     await newOrder.save();

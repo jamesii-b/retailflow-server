@@ -1,3 +1,0 @@
-await Product.findOne({
-    
-})
