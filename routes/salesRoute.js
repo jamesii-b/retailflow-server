@@ -1,7 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const getAllSales  = require("../controller/sales");
+const getSalesData = require("../controller/sales");
+const salesTurnover = require("../controller/salesTurnover");
 
-router.get("/sales", getAllSales);
+router.get("/sales", getSalesData);
+router.get("/sales/turnover", salesTurnover)
+
 
 module.exports = router;
