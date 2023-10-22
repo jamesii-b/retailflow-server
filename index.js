@@ -19,6 +19,7 @@ const productRoute = require("./routes/productRoute");
 app.use("/", productRoute);
 const salesRoute = require("./routes/salesRoute");
 app.use("/", salesRoute);
+app.use("/", require("./routes/salesPageWidget"));
 
 const notifyQuantity = require("./routes/notifyQuantity");
 app.use("/notifyadmin", notifyQuantity);
