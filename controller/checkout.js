@@ -6,36 +6,55 @@ const Product = require("../models/product");
 const ProductItem = require("../models/productItem");
 const checkout = async (req, res) => {
   try {
-    const ID = req.body.ID
-    const Response = await axios.get(`http://localhost:5000/product/${ID}`);
-
-    if (!Response.data.productItem[0]) {
-      // Handle the case where the product is not found
-      return res.status(404).json({ msg: "Product not found" });
+    console.log("req.body")
+    console.log(req.body)
+    if (!Array.isArray(req.body)) {
+      return res.status(400).json({ msg: "Request body should be an array" });
     }
-    const productItem = Response.data.productItem[0];
 
-    try {
+    const itemsToSave = []
+    var totalPrice = 0;
 
-      const orderCreate = new Order({
-        orderID: Date.now().toString(),
-        pName: product.pName,
-        priceRate: product.priceRate,
-        ID: req.body.ID,
-        size: product.size,
-        totalAmount: product.priceRate * req.body.quantity,
-        orderDate: Date.now().toString(),
-      });
-      await orderCreate.save().then(() => {
-        //reduce the quantity on success
-        ProductItem.findOneandDelete({ ID: ID })
-      })
-    } catch (e) {
-      console.error(e);
-      return res.status(500).json({ msg: "Internal Server Error" });
+    for (const element of (req.body)) {
+      console.log(element);
+      const Response = await axios.get(`http://localhost:5000/product/${element}`);
+
+      if (!Response.data.productItem[0]) {
+        return res.status(404).json({ msg: "Product not found" });
+      }
+      const productFamily = Response.data.productItem[0].productFamily;
+      const productItem = Response.data.productItem[0];
+
+      try {
+
+        const orderCreate = {
+          pName: productFamily.pName,
+          priceRate: productItem.priceRate,
+          ID: Date.now().toString(),
+          size: productFamily.size,
+        };
+        totalPrice += parseInt(productItem.priceRate);
+        await itemsToSave.push(orderCreate);
+        await ProductItem.findOneAndDelete({ ID: element }).then((result) => {
+          console.log("deleted");
+        });
+      } catch (e) {
+        console.error(e);
+        return res.status(500).json({ msg: "Internal Server Error" });
+      }
     }
-    res.status(201).json({ success: true, order: orderCreate });
-  } catch (e) {
+
+
+    const newOrder = new Order({
+      totalAmount: totalPrice,
+      products: itemsToSave,
+    })
+
+    await newOrder.save();
+
+    res.json({ msg: "Order placed successfully" });
+  }
+  catch (e) {
     console.error(e);
     return res.status(500).json({ msg: "Internal Server Error" });
   }

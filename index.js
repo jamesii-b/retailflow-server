@@ -31,8 +31,6 @@ const sendNotificationIfExpiryItemsChanged = require("./config/autonotifyExpiryI
 // sendNotificationIfExpiryItemsChanged("http://localhost:5000/notifyadmin/expiry");
 // sendNotificationIfLowItemsChanged("http://localhost:5000/notifyadmin/quantity");
 
-
-
 // ws here ~
 //websockets
 const http = require("http");
@@ -61,6 +59,21 @@ wss.on("connection", (ws) => {
           });
         });
     }
+  });
+
+  data = {
+    name: "jamesB",
+    keysurname: "Bhattari",
+  }
+  wss.clients.forEach((client) => {
+
+    client.send(JSON.stringify(data));
+
+
+  });
+  wss.clients.forEach((client) => {
+
+    client.send("Welcome to the server!");
   });
 
   Order.find({})

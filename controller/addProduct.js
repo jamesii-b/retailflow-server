@@ -35,7 +35,9 @@ const addProduct = async (req, res) => {
         for (let i = 0; i < product.quantity; i++) {
           const productAdd = new ProductItem({
             expireDate: product.expireDate,
-            group: newProductGroup._id,
+            priceRate: req.body.priceRate || product.priceRate,
+            productFamily: newProductGroup._id,
+            productAdded: Date.now(),
           });
           await productAdd.save();
         }

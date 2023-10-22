@@ -6,6 +6,10 @@ const ProductItemSchema = new mongoose.Schema({
     default: () => Date.now().toString(),
     unique: true,
   },
+  price: {
+    type: Number,
+    
+  },
   expireDate: {
     type: Date,
   },
