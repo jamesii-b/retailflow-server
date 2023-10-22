@@ -12,11 +12,11 @@ async function specificSalesData(req, res) {
     };
     const dBQ = {
         ...dateQuery,
-        "products": {
-            "$elemMatch": {
-                [division]: value
+      "products": {
+                "$elemMatch": {
+                    [division]: value
+                }
             }
-        }
 
     };
     console.log(dBQ)

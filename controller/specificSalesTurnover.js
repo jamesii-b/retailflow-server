@@ -1,7 +1,8 @@
 const axios = require('axios')
-async function salesTurnover(req, res) {
+async function getSpecificSalesTurnover(req, res) {
     const query = req.query.t
-    salesData = await axios.get("http://localhost:5000/sales?t=" + query)
+    const parameter = req.params.division
+    salesData = await axios.get("http://localhost:5000/sales/" + parameter + "?t=" + query)
     salesData = salesData.data
     if (Array.isArray(salesData)) {
         let turnover = 0;
@@ -16,4 +17,4 @@ async function salesTurnover(req, res) {
     }
 }
 
-module.exports = salesTurnover
+module.exports = getSpecificSalesTurnover
