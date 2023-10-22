@@ -21,7 +21,6 @@ async function getSalesData(req, res) {
     };
     try {
       const salesData = await Order.find({ ...dateQuery });
-      console.log("printing the salesData inside of sales.js", salesData)
       res.json(salesData);
     } catch (error) {
       console.error(error);
