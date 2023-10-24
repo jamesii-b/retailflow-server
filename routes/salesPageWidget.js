@@ -1,9 +1,13 @@
 const express = require("express");
 
-const Router = express.Router();
+const router = express.Router();
 
-const { salesGraphData } = require("../controller/graphData");
+const allSalesGraphData = require("../controller/allGraphData");
+const getTopSellingProductData = require("../controller/topSellingProduct");
+const getSpecificSalesGraphData = require("../controller/specificSalesGraphData");
 
-Router.get("/salesgraph", salesGraphData);
+router.get("/salesgraph", allSalesGraphData);
+router.get("/salesgraph/:division", getSpecificSalesGraphData);
+router.get("/topsellinggraph", getTopSellingProductData)
 
-module.exports = Router;
+module.exports = router;
