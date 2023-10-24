@@ -8,35 +8,36 @@ async function calculateData(salesData) {
         minY: 0,
     }
 
-    var maxX = new Date(salesData[0].orderDate).getTime();
-    var minX = new Date(salesData[0].orderDate).getTime();
+    var maxX = new Date(salesData[0].orderDate).getTime()
+    var minX = new Date(salesData[0].orderDate).getTime()
     var maxY = salesData[0].totalAmount
     var minY = salesData[0].totalAmount
     for (const element of salesData) {
-        var x = new Date(salesData[0].orderDate).getTime();
+        var x = new Date(element.orderDate).getTime()
         var y = element.totalAmount
         var object = {
             x, y
         }
-        if (element.orderDate > maxX) {
+        if (parseInt(element.orderDate) > parseInt(maxX)) {
             maxX = element.orderDate
         }
-        if (element.orderDate < minX) {
+        if (parseInt(element.orderDate) < parseInt(minX)) {
             minX = element.orderDate
         }
-        if (element.totalAmount > maxY) {
+        if (parseInt(element.totalAmount) > parseInt(maxY)) {
             maxY = element.totalAmount
         }
-        if (element.totalAmount < minY) {
+        if (parseInt(element.totalAmount) < parseInt(minY)) {
             minY = element.totalAmount
         }
+        console.log(object)
+        console.log("object")
         graphData.coordinates.push(object);
         graphData.maxX = maxX;
         graphData.maxY = maxY;
         graphData.minY = minY;
         graphData.minX = minX;
     }
-
     return graphData;
 
 

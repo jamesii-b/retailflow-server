@@ -2,10 +2,10 @@ const { returnDate, parseDate } = require("../utils/parseDate");
 const Order = require("../models/order");
 
 async function specificSalesData(req, res) {
-    dBQ = ""
+    let dBQ
     if (!req.query.t) {
         const [division, value] = req.params.division.split('=')
-        const dBQ = {
+        dBQ = {
             "products": {
                 "$elemMatch": {
                     [division]: value
@@ -23,7 +23,7 @@ async function specificSalesData(req, res) {
         const dateQuery = {
             orderDate: startDate > endDate ? { $gte: endDate, $lte: startDate } : { $gte: startDate, $lte: endDate },
         };
-        const dBQ = {
+        dBQ = {
             ...dateQuery,
             "products": {
                 "$elemMatch": {
@@ -34,7 +34,6 @@ async function specificSalesData(req, res) {
         }
     };
     try {
-        console.log(dBQ, "\n \n \n \n \n")
         const salesData = await Order.find({ ...dBQ });
         res.json(salesData);
     } catch (error) {

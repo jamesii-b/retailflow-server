@@ -19,7 +19,7 @@ const checkout = async (req, res) => {
       console.log(element);
       const Response = await axios.get(`http://localhost:5000/product/${element}`);
 
-      if (!Response.data.productItem[0]) {
+      if (!Response.data.productItem) {
         return res.status(404).json({ msg: "Product not found" });
       }
       const productFamily = Response.data.productItem[0].productFamily;
