@@ -18,17 +18,17 @@ async function calculateData(salesData) {
         var object = {
             x, y
         }
-        if (parseInt(element.orderDate) > parseInt(maxX)) {
-            maxX = element.orderDate
+        if (x > parseInt(maxX)) {
+            maxX = x
         }
-        if (parseInt(element.orderDate) < parseInt(minX)) {
-            minX = element.orderDate
+        if (x < parseInt(minX)) {
+            minX = x
         }
-        if (parseInt(element.totalAmount) > parseInt(maxY)) {
-            maxY = element.totalAmount
+        if (parseInt(y) > parseInt(maxY)) {
+            maxY = y
         }
-        if (parseInt(element.totalAmount) < parseInt(minY)) {
-            minY = element.totalAmount
+        if (parseInt(y) < parseInt(minY)) {
+            minY = y
         }
         console.log(object)
         console.log("object")
