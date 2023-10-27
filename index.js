@@ -75,6 +75,10 @@ server.listen(5000, () => {
   console.log("ws://localhost:5000");
 });
 
+
+app.get("/", (req, res) => {
+  res.send("welcome to nodejs web server")
+})
 // const PORT = 5000;
 // app.listen(5000 || process.env., () => {
 //   console.log("server is running on port 5000");
