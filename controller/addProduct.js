@@ -37,6 +37,7 @@ const addProduct = async (req, res) => {
             expireDate: product.expireDate,
             priceRate: req.body.priceRate || product.priceRate,
             productFamily: newProductGroup._id,
+            supplier: req.body.supplier || product.supplier,
             productAdded: Date.now(),
           });
           await productAdd.save();

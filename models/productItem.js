@@ -6,10 +6,6 @@ const ProductItemSchema = new mongoose.Schema({
     default: () => Date.now().toString(),
     unique: true,
   },
-  price: {
-    type: Number,
-    
-  },
   expireDate: {
     type: Date,
   },
@@ -18,6 +14,9 @@ const ProductItemSchema = new mongoose.Schema({
   },
   quantity: {
     type: Number,
+  },
+  supplier: {
+    type: String,
   },
   productFamily: {
     type: mongoose.Schema.Types.ObjectId,

@@ -40,9 +40,7 @@ const ProductSchema = new mongoose.Schema({
     type: String,
     default: "null",
   },
-  price: {
-    type: String,
-  },
+
 });
 const Product = mongoose.model("Product", ProductSchema);
 module.exports = Product;

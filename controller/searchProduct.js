@@ -1,5 +1,4 @@
 const Product = require("../models/product");
-
 const searchProduct = async (req, res) => {
   const searchQuery = req.params.searchQuery;
   console.log("searchQuery");
@@ -14,6 +13,8 @@ const searchProduct = async (req, res) => {
       { pName: { $regex: query } },
       { category: { $regex: query } },
       { pID: { $regex: query } },
+      { subCategory: { $regex: query } },
+      { size: { $regex: query } },
     ],
   });
   return res.json({ success: true, products });
