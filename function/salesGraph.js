@@ -1,6 +1,5 @@
 async function calculateData(salesData) {
     try {
-
         const graphData = {
             coordinates: [],
             maxX: 0,

@@ -17,7 +17,7 @@ async function notifyQuantity(req, res) {
   try {
     const currentLowItems = await checkInventory("lowitems");
     console.log("Sending low quantity email", currentLowItems);
-   await concatdata(currentLowItems);
+    await concatdata(currentLowItems);
     sendMail(recepient, mailData, subject, text);
     res.status(200).send("Email sent");
   } catch (err) {

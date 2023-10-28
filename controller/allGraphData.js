@@ -10,6 +10,7 @@ async function allSalesGraphData(req, res) {
         try {
 
             resSales = await axios.get("http://localhost:5000/sales?t=" + query)
+
             var calculatedData = await calculateData(resSales.data)
             res.json(calculatedData);
         } catch (err) {
@@ -20,7 +21,7 @@ async function allSalesGraphData(req, res) {
 
             resSales = await axios.get("http://localhost:5000/sales")
             var calculatedData = await calculateData(resSales.data)
-            res.json(calculatedData);
+            res.json(calculateData);
         } catch (err) {
             res.json("Internal Server Error")
         }

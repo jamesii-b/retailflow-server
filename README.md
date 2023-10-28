@@ -21,11 +21,71 @@ This is a backend system built for the frontend of ERP and POS system.
 `/salesgraph/divison` | Eg: ```/salesgraph/pName=Marshmello```
 
 
-## Individual Route Definition
+## API Reference
 
 ### `Checkout`
-It accepts the json as <br>
-Data=[<br>
-"1698000485604","1698000485604" <br>
-]
+
+```http
+  POST /checkout
+```
+
+It accepts the data as as <br>
+```
+[ "1698000485604","1698000485604" ]
+```
 <br> Here these datum are individual product id.
+
+
+### `Add-Product`
+
+
+```http
+  POST /add-product
+```
+Here, It expects data as: 
+```
+{
+  "pID": '441144',
+  "pName": 'JBL Headphone T450BT',
+  "threshold": '100',
+  "category": 'cat',
+  "subCategory": 'subCat',
+  "selfLocation": 'selfLoc',
+  "image": 'img',
+  "size": 'size',
+  "sName": 'sName',
+  "otherAttribute": 'others',
+  "products": [ { "quantity": '150', "expireDate": '2023-12-22',"supplier": "111B Supplier","priceRate":150 },
+  { "quantity": '150', "expireDate": '2023-10-22',"supplier": "111B Supplier","priceRate":150 } ]
+}
+```
+
+### `Sales Graph Data`
+
+```http
+/salesgraph?t=2023_01_20to2023_02_20
+```
+
+
+```http
+/salesgraph/:division
+```
+
+
+## Environment Variables
+
+To run this project, you will need to add the following environment variables to your .env file
+
+Mongodb URL -> `URI`
+
+Email to Notify -> `ADMIN_EMAIL`
+
+`EMAIL`
+
+`PASSWORD`
+
+## Tech Stack
+
+
+**Server:** Node, Express, Mongoose
+

@@ -36,11 +36,10 @@ const ProductSchema = new mongoose.Schema({
     type: String,
     default: "null",
   },
-  sName: {
-    type: String,
-    default: "null",
+  productAdded: {
+    type: Date,
+    default: Date.now(),
   },
-
 });
 const Product = mongoose.model("Product", ProductSchema);
 module.exports = Product;

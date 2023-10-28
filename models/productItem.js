@@ -8,13 +8,13 @@ const ProductItemSchema = new mongoose.Schema({
   },
   expireDate: {
     type: Date,
+    required: true,
   },
   priceRate: {
     type: Number,
+    required: true,
   },
-  quantity: {
-    type: Number,
-  },
+
   supplier: {
     type: String,
   },

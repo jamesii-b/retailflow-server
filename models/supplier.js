@@ -1,16 +1,19 @@
 const mongoose = require("mongoose");
 
-const Supplier = new mongoose.Schema({
+/* s Indicates supplier */
+const supplierSchema = new mongoose.Schema({
   sName: {
     type: String,
   },
   sAddress: {
     type: String,
   },
-  sContact: {
+  sContactNo: {
     type: String,
   },
   sEmail: {
     type: String,
   },
 });
+
+module.exports = mongoose.model("Supplier", supplierSchema);

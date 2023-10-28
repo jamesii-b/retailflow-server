@@ -46,7 +46,7 @@ const checkout = async (req, res) => {
 
 
     const newOrder = new Order({
-      totalAmount: totalPrice,
+      totalAmount: parseInt(totalPrice),
       products: itemsToSave,
       orderDate: Date.now(),
     })

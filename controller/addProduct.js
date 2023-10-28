@@ -25,7 +25,6 @@ const addProduct = async (req, res) => {
         image: req.body.image || "null",
         otherAttribute: req.body.otherAttribute || "null",
         size: req.body.size || "null",
-        sName: req.body.sName || "null",
         threshold: parseInt(req.body.threshold) || 0, // Correct default value and parse as integer
       });
 
@@ -47,12 +46,11 @@ const addProduct = async (req, res) => {
       return res.json({ msg: "ProductItem added successfully" });
     } else {
       console.log("product already exist");
+      return res.json({ msg: "ProductItem already exists" });
     }
   } catch (e) {
     console.error(e);
-    return res
-      .status(500)
-      .json({ msg: "Internal Server Error | Failed to add product" });
+    return res.status(500).json({ msg: "Internal Server Error | Failed to add product", e });
   }
 };
 
