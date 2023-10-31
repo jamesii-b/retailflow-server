@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const ProductItemSchema = new mongoose.Schema({
   ID: {
     type: String,
-    default: () => Date.now().toString(),
+    default: () =>parseInt( Date.now().toString()) + parseInt(Math.random()*10000).toString(),
     unique: true,
   },
   expireDate: {

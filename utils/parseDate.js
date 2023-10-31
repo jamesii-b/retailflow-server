@@ -1,10 +1,10 @@
 async function returnDate(queryTime) {
     const [startDateStr, endDateStr] = queryTime.split('to');
-    const startDateComponents = startDateStr.split('_');
+    const startDateComponents = startDateStr.split('-');
     startDate = parseDate(startDateComponents)
     try {
 
-        const endDateComponents = endDateStr.split('_');
+        const endDateComponents = endDateStr.split('-');
         endDate = parseDate(endDateComponents)
     }
     catch (err) {

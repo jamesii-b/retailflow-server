@@ -5,7 +5,9 @@ const calculateData = require("../function/salesGraph.js")
 async function allSalesGraphData(req, res) {
 
     const query = req.query.t
+    let resSales;
     if (query) {
+
 
         try {
 
@@ -21,7 +23,7 @@ async function allSalesGraphData(req, res) {
 
             resSales = await axios.get("http://localhost:5000/sales")
             var calculatedData = await calculateData(resSales.data)
-            res.json(calculateData);
+            res.json(calculatedData);
         } catch (err) {
             res.json("Internal Server Error")
         }

@@ -63,7 +63,7 @@ Here, It expects data as:
 ### `Sales Graph Data`
 
 ```http
-/salesgraph?t=2023_01_20to2023_02_20
+/salesgraph?t=2023-01-20to2023-02-20
 ```
 
 
