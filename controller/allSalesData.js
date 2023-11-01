@@ -16,6 +16,7 @@ async function getAllSalesData(req, res) {
     dateArr = await returnDate(query)
     console.log("date arr is", dateArr)
     startDate = dateArr[0]
+    console.log(startDate)
     endDate = dateArr[1]
     const dateQuery = {
       orderDate: startDate > endDate ? { $gte: endDate, $lte: startDate } : { $gte: startDate, $lte: endDate },

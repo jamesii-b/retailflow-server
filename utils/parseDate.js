@@ -1,6 +1,7 @@
 async function returnDate(queryTime) {
     const [startDateStr, endDateStr] = queryTime.split('to');
     const startDateComponents = startDateStr.split('-');
+    console.log("logging  \n \n \ n")
     startDate = parseDate(startDateComponents)
     try {
 

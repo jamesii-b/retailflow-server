@@ -67,7 +67,6 @@ async function returnHourSum(Data) {
                 index = inside - counter;
             }
             spliced = false;
-            console.log(Data[index].orderDate, Data[outside].orderDate, ' RETURNED FROM ARE HOUR EQUAL', areHourEqual(Data[index].orderDate, Data[outside].orderDate))
             if (areHourEqual(Data[index].orderDate, Data[outside].orderDate)) {
                 totalAmount += parseFloat(Data[index].totalAmount);
                 if (inside != outside) {
