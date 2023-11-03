@@ -5,16 +5,17 @@ async function groupedData(parentId) {
     const result = await ProductItem.aggregate([
       {
         $match: {
-          group: new mongoose.Types.ObjectId(parentId), // Use the 'new' keyword here
+          productFamily: new mongoose.Types.ObjectId(parentId), // Use the 'new' keyword here
         },
       },
       {
         $group: {
-          _id: "$group",
+          _id: "$productFamily", // Group by field 'productFamily
           totalCount: { $sum: 1 }, // Count the number of items in each group
         },
       },
     ]);
+
     if (result.length > 0) {
       return result[0].totalCount;
     } else {

@@ -20,6 +20,7 @@ async function arrangedData(dataInitialized, timeframe) {
     if (timeframe == "hour") {
 
         hourBasisData = await returnHourSum(dataInitialized)
+        hourBasisData.sort((a, b) => a.date - b.date);
         // console.log(hourBasisData)
         return hourBasisData
     }

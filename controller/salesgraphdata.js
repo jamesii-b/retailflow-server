@@ -8,6 +8,7 @@ async function salesGraphData(req, res) {
     // console.log("data being sent to arrange", resData.data)
     actualData = await arrangedData(resData.data, "hour")
     console.log("data after arragnge", actualData)
+
     // how to access the amount and date inside of actaulData
 
 
@@ -20,7 +21,10 @@ async function salesGraphData(req, res) {
         maxY: 0,
         minY: 0,
     }
-
+    if (actualData.length === 0) {
+        res.json({})
+        return
+    }
     let maxX = new Date(actualData[0].date).getUTCHours()
     let minX = new Date(actualData[0].date).getUTCHours()
     let maxY = actualData[0].amount
@@ -57,8 +61,6 @@ async function salesGraphData(req, res) {
 
     console.log(graphData)
 
-    // acccess the amount of actualData in the for loop
-    // console.log(actualData[0].amount)
 
 
     res.json(graphData)

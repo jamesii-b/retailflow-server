@@ -15,11 +15,12 @@ function concatdata(resObj) {
 text = "Inventory Running Low";
 async function notifyQuantity(req, res) {
   try {
-    const currentLowItems = await checkInventory("lowitems");
-    console.log("Sending low quantity email", currentLowItems);
-    await concatdata(currentLowItems);
-    sendMail(recepient, mailData, subject, text);
-    res.status(200).send("Email sent");
+    const currentLowItems = await checkInventory();
+    // console.log("Sending low quantity email", currentLowItems);
+    // await concatdata(currentLowItems);
+    // sendMail(recepient, mailData, subject, text);
+    res.status(200).json(currentLowItems);
+    // res.status(200).send("Email sent");
   } catch (err) {
     console.log(err);
     resObj = [];

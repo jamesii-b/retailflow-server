@@ -4,7 +4,7 @@ const {
   getAllProducts,
   getProductsByCategory,
   getSpecificProduct,
-  getProductsbySubCat,
+  getProductsbySubCat,getAllProductItems
 } = require("../controller/getProducts");
 const addProduct = require("../controller/addProduct");
 const searchProduct = require("../controller/searchProduct");
@@ -15,6 +15,7 @@ const checkout = require("../controller/checkout");
 router.post("/add-product", addProduct);
 router.get("/search/:searchQuery?", searchProduct);
 router.get("/products", getAllProducts);
+router.get("/productItems", getAllProductItems);
 router.get("/products/:cat", getProductsByCategory);
 router.get("/products/:cat/:subCat", getProductsbySubCat);
 router.get("/product/:id", getSpecificProduct);

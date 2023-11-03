@@ -39,10 +39,28 @@ const getSpecificProduct = async (req, res) => {
     });
   }
 };
-
+const getAllProductItems = async (req, res) => {
+  try {
+    const ID = req.params.id;
+    const productItem = await ProductItem.find().populate("productFamily");
+    if (productItem.length === 0 || !productItem[0]) {
+      return res.json({
+        success: false,
+        message: "Product not found",
+      });
+    }
+    return res.json({ success: true, productItem });
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({
+      success: false,
+      message: "An error occurred while processing your request.",
+    });
+  }
+};
 module.exports = {
   getAllProducts,
   getProductsByCategory,
   getProductsbySubCat,
-  getSpecificProduct,
+  getSpecificProduct, getAllProductItems
 };

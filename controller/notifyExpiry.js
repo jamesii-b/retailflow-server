@@ -18,11 +18,12 @@ async function concatdata(resObj) {
 
 const notifyExpiry = async (req, res) => {
   try {
-    resObj = await checkExpiry();
-    console.log("Sending expiry email", resObj);
-    concatdata(resObj);
-    sendMail(recepient, mailData, subject, text);
-    res.status(200).send("Email sent");
+   const resObj = await checkExpiry();
+  //  console.log("Sending expiry email", resObj);
+  //  concatdata(resObj);
+  //  sendMail(recepient, mailData, subject, text);
+   res.status(200).json(resObj);
+    // res.status(200).send("Email sent");
   } catch (err) {
     console.log(err);
     resObj = [];

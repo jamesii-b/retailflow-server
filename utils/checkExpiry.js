@@ -9,7 +9,7 @@ async function checkExpiry() {
 
     for (const item of ProductData) {
       const ItemData = await ProductItem.find({
-        group: item._id.toString(),
+        productFamily: item._id.toString(),
       });
 
       for (const individualItem of ItemData) {

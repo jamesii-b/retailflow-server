@@ -6,13 +6,19 @@ This is a backend system built for the frontend of ERP and POS system.
 ## Routes
 
 
-### Product Routes
+### Product Essentials
 `/add-product` <br>
 `/sales`
 `/sales/division` | Eg : ```/sales/pName=Marshmello``` <br>
 `/sales/division?t=2023_10_20` ||  ```/sales/division? t=2023_10_20to2023_10_30``` -> Optional <br>
 `/checkout`
 
+### Product Details
+`/products`
+`/product/id`eg: `/product/123131`
+`/search/:searchQuery?`
+`/products/:cat`
+`/products/:subCat`
 
 
 ### Graph Dataum & Widgests Routes
@@ -20,6 +26,10 @@ This is a backend system built for the frontend of ERP and POS system.
 `/salesgraph` <br>
 `/salesgraph/divison` | Eg: ```/salesgraph/pName=Marshmello```
 
+### Expiry & Low Items
+
+`/notifyadmin/expiry` <br>
+`/notifyadmin/quantity` 
 
 ## API Reference
 

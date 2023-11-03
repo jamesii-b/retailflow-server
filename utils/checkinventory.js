@@ -1,12 +1,13 @@
 // check if the thresholdData is less then the quantityData
 const Product = require("../models/product");
-const groupedData=require("../utils/groupedData.js")
+const groupedData = require("../utils/groupedData.js")
 async function checkInventory(returnData) {
+  console.log("isnide checkInventory")
   try {
-    const salesData = await Product.find();
+    const productData = await Product.find();
     const lowItems = [];
     const lowItemsallData = [];
-    for (const item of salesData) {
+    for (const item of productData) {
       quantity = await groupedData(item._id.toString());
       if (quantity < parseInt(item.threshold)) {
         const lowItem = {
@@ -19,6 +20,7 @@ async function checkInventory(returnData) {
         await lowItemsallData.push(item);
       }
     }
+    return lowItems
 
     returnData = returnData.toLowerCase();
     if (returnData == "lowitems") {
