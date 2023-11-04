@@ -13,13 +13,14 @@ This is a backend system built for the frontend of ERP and POS system.
 `/sales/division?t=2023_10_20` ||  ```/sales/division? t=2023_10_20to2023_10_30``` -> Optional <br>
 `/checkout`
 
+
 ### Product Details
 `/products`
 `/product/id`eg: `/product/123131`
 `/search/:searchQuery?`
 `/products/:cat`
 `/products/:subCat`
-
+`/product/:id?short=true`-> this sends specificly populated data for checkout in order to reduce latency.
 
 ### Graph Dataum & Widgests Routes
 
