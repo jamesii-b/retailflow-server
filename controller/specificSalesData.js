@@ -5,13 +5,23 @@ async function specificSalesData(req, res) {
     let dBQ
     if (!req.query.t) {
         const [division, value] = req.params.division.split('=')
-        dBQ = {
-            "products": {
-                "$elemMatch": {
-                    [division]: value
+        dBQ = [
+            {
+                $unwind: "$products"
+            },
+            {
+                $match: {
+                    [`products.${division}`]: value
                 }
-            }
-        }
+            },
+             {
+                    $project: {
+                        orderID: 1,
+                        orderDate: 1,
+                        products: 1
+                    }
+                }
+        ];
     }
     else {
 
@@ -23,18 +33,22 @@ async function specificSalesData(req, res) {
         const dateQuery = {
             orderDate: startDate > endDate ? { $gte: endDate, $lte: startDate } : { $gte: startDate, $lte: endDate },
         };
-        dBQ = {
-            ...dateQuery,
-            "products": {
-                "$elemMatch": {
-                    [division]: value
+        dBQ = [
+            {
+                $match: dateQuery // Match based on the date range
+            },
+            {
+                $unwind: "$products"
+            },
+            {
+                $match: {
+                    [`products.${division}`]: value // Additional product filtering
                 }
             }
-
-        }
+        ];
     };
     try {
-        const salesData = await Order.find({ ...dBQ });
+        const salesData = await Order.aggregate(dBQ);
         res.json(salesData);
     } catch (error) {
         console.error(error);

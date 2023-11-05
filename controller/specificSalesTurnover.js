@@ -2,13 +2,19 @@ const axios = require('axios')
 async function getSpecificSalesTurnover(req, res) {
     const query = req.query.t
     const parameter = req.params.division
-    salesData = await axios.get("http://localhost:5000/sales/" + parameter + "?t=" + query)
+    if (!query) {
+        salesData = await axios.get("http://localhost:5000/sales/" + parameter)
+    } else {
+        salesData = await axios.get("http://localhost:5000/sales/" + parameter + "?t=" + query)
+    }
     salesData = salesData.data
+    // console.log(salesData)
     if (Array.isArray(salesData)) {
         let turnover = 0;
 
         salesData.forEach(element => {
-            turnover += element.totalAmount;
+            console.log(element.products.priceRate)
+            turnover += element.products.priceRate;
         });
 
         res.json({ turnover: turnover });

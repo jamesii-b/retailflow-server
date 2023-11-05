@@ -10,8 +10,8 @@ const specialRequests = require("../controller/specialrequests");
 
 router.get("/sales", getAllSalesData);
 router.get("/sales/:division", specificSalesData);
-router.get("/sales/turnover", getAllTurnoverData)
-router.get("/sales/turnover/:division", getSpecificSalesTurnover)
+router.get("/turnover/sales", getAllTurnoverData)
+router.get("/turnover/sales/:division", getSpecificSalesTurnover)
 router.get("/sales/special/:timedivision", specialRequests)
 
 module.exports = router;

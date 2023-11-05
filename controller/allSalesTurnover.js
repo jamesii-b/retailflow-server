@@ -1,7 +1,13 @@
 const axios = require('axios')
 async function getAllTurnoverData(req, res) {
     const query = req.query.t
-    salesData = await axios.get("http://localhost:5000/sales?t=" + query)
+    if(query){
+        salesData = await axios.get("http://localhost:5000/sales?t=" + query)
+        
+    }else{
+        salesData = await axios.get("http://localhost:5000/sales" )
+
+    }
     salesData = salesData.data
     if (Array.isArray(salesData)) {
         let turnover = 0;

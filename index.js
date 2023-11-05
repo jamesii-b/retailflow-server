@@ -30,6 +30,13 @@ const sendNotificationIfExpiryItemsChanged = require("./config/autonotifyExpiryI
 // sendNotificationIfExpiryItemsChanged("http://localhost:5000/notifyadmin/expiry");
 // sendNotificationIfLowItemsChanged("http://localhost:5000/notifyadmin/quantity");
 
+app.use("/", require("./routes/functionalities"));
+
+
+
+
+
+
 // ws here ~
 //websockets
 const http = require("http");
