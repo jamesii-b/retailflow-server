@@ -29,7 +29,7 @@ const checkout = async (req, res) => {
       try {
 
         const orderCreate = {
-          pName: productFamily.pName,
+          pID: productFamily.pID,
           priceRate: productItem.priceRate,
           ID: Date.now().toString(),
           size: productFamily.size,
