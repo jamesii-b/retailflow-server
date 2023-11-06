@@ -15,7 +15,7 @@ const checkout = async (req, res) => {
     const itemsToSave = []
     var totalPrice = 0;
     console.log(req.body)
-    console.log("req.body.orderDate",req.body.orderDate)
+    console.log("req.body.orderDate", req.body.orderDate)
     for (const element of (req.body)) {
       console.log(element);
       const Response = await axios.get(`http://localhost:5000/product/${element}`);
@@ -32,7 +32,9 @@ const checkout = async (req, res) => {
           pID: productFamily.pID,
           priceRate: productItem.priceRate,
           ID: Date.now().toString(),
-          size: productFamily.size,
+          supplier: productItem.supplier,
+          expireDate: productItem.expireDate,
+          productAdded: productItem.productAdded,
         };
         totalPrice += parseInt(productItem.priceRate);
         await itemsToSave.push(orderCreate);
@@ -49,9 +51,7 @@ const checkout = async (req, res) => {
     const newOrder = new Order({
       totalAmount: parseInt(totalPrice),
       products: itemsToSave,
-
       orderDate: Date.now(),
-      // orderDate: req.body[1].orderDate,
     })
 
     await newOrder.save();

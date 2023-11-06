@@ -26,8 +26,16 @@ const orderSchema = new mongoose.Schema({
       },
       size: {
         type: String,
-        // required: true,
       },
+      supplier:{
+        type: String,
+      },
+      productAdded:{
+        type: Date,
+      },
+      expireDate:{
+        type: Date,
+      }
     }
   ],
 
