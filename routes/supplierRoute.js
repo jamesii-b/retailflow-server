@@ -26,12 +26,9 @@ router.get("/supplier/search/:sName?", async (req, res) => {
 })
 
 router.post("/add-supplier", async (req, res) => {
-    // const { sName, sAddress, sContactNo, sEmail } = req.body;
-    // if (!sName || !sAddress || !sContactNo || !sEmail) {
-    //     return res.status(400).json({ msg: "Please enter all fields" });
-    // }
     try {
         const newSupplier = new Supplier({
+            sID: Date.now().toString(),
             sName: req.body.sName,
             sAddress: req.body.sAddress,
             sContactNo: req.body.sContactNo,

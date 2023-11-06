@@ -5,6 +5,9 @@ const supplierSchema = new mongoose.Schema({
   sName: {
     type: String,
   },
+  sID: {
+    type: String,
+  },
   sAddress: {
     type: String,
   },
