@@ -26,7 +26,7 @@ router.get("/itemcount/:id", (req, res) => {
 router.get('/similarproduct/:pID', async (req, res) => {
     try {
         const targetProduct = await Product.findOne({ pID: req.params.pID });
-        console.log(targetProduct)
+        // console.log(targetProduct)
         if (!targetProduct) {
             return res.status(404).json({ message: 'Product not found' });
         }
@@ -37,19 +37,24 @@ router.get('/similarproduct/:pID', async (req, res) => {
         })
         if (sameName.length < 3) {
             const similarProducts = await Product.find({
-                $or: [
-                    { category: targetProduct.category, subCategory: targetProduct.subCategory },
-                    { subCategory: targetProduct.subCategory },
-                    { category: targetProduct.category },
+                $and: [
+                    {
+                        $or: [
+                            { category: targetProduct.category, subCategory: targetProduct.subCategory },
+                            { subCategory: targetProduct.subCategory },
+                            { category: targetProduct.category },
+                        ],
+                    },
+                    { pID: { $ne: targetProduct.pID } }, // Exclude the target product
                 ],
-                pID: { $ne: targetProduct.pID }, // Exclude the target product
-            });
-            console.log(similarProducts)
+            }).limit(3);
             if (similarProducts.length < 3) {
-                const randomProducts = await Product.aggregate([
-                    { $match: { pID: { $ne: targetProduct.pID } } }, // Exclude the target product
-                    { $sample: { size: 3 - similarProducts.length } }, // Get 3 random products
-                ]);
+                const randomProducts = await Product.aggregate
+                    ([
+                        { $match: { pID: { $ne: targetProduct.pID } } }, // Exclude the target product
+                        { $sample: { size: 3 - similarProducts.length } }, // Get 3 random products
+                        { $limit: 3 }
+                    ]);
                 res.json(randomProducts);
             } else {
 
@@ -59,7 +64,6 @@ router.get('/similarproduct/:pID', async (req, res) => {
             res.json(sameName)
         }
 
-        // res.json(similarProducts);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal Server Error' });
