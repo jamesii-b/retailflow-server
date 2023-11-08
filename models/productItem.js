@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const ProductItemSchema = new mongoose.Schema({
   ID: {
     type: String,
-    default: () =>parseInt( Date.now().toString()) + parseInt(Math.random()*10000).toString(),
+    default: () => parseInt(Date.now().toString()) + parseInt(Math.random() * 10000).toString(),
     unique: true,
   },
   expireDate: {
@@ -14,9 +14,9 @@ const ProductItemSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-
   supplier: {
     type: String,
+    ref: "Supplier", // Reference to the Supplier model
   },
   productFamily: {
     type: mongoose.Schema.Types.ObjectId,

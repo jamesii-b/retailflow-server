@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const ProductItem = require("../models/productItem");
 const Product = require("../models/product");
+const Supplier = require("../models/supplier");
 
 const addProduct = async (req, res) => {
   const RpID = req.body.pID;
@@ -32,11 +33,12 @@ const addProduct = async (req, res) => {
 
       for (const product of productDetails) {
         for (let i = 0; i < product.quantity; i++) {
+          const existingSupplier = await Supplier.findOne({ sName: product.supplier });
           const productAdd = new ProductItem({
             expireDate: product.expireDate,
             priceRate: req.body.priceRate || product.priceRate,
             productFamily: newProductGroup._id,
-            supplier: req.body.supplier || product.supplier,
+            supplier: existingSupplier.sID,
             productAdded: Date.now(),
           });
           await productAdd.save();
