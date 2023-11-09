@@ -19,7 +19,7 @@ const productRoute = require("./routes/productRoute");
 app.use("/", productRoute);
 const salesRoute = require("./routes/salesRoute");
 app.use("/", salesRoute);
-app.use("/", require("./routes/salesPageWidget"));
+app.use("/", require("./routes/graphWidgetRoutes"));
 
 const notifyQuantity = require("./routes/notifyQuantity");
 app.use("/notifyadmin", notifyQuantity);
@@ -31,9 +31,9 @@ const sendNotificationIfExpiryItemsChanged = require("./config/autonotifyExpiryI
 // sendNotificationIfLowItemsChanged("http://localhost:5000/notifyadmin/quantity");
 
 app.use("/", require("./routes/functionalities"));
+app.use("/", require("./routes/pdfGeneration"));
 
-
-
+app.use("/", require("./routes/supplierRoute"));
 
 
 

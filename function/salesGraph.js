@@ -1,55 +1,34 @@
-async function calculateData(salesData) {
+async function salesGraphCoordinate(salesData) {
     try {
-        const graphData = {
-            coordinates: [],
-            maxX: 0,
-            minX: 0,
-            maxY: 0,
-            minY: 0,
-        }
+
+
+        const graphCoordinates = [];
+
         if (!Array.isArray(salesData) || salesData.length === 0) {
             console.log("Invalid or empty salesData array");
             return {}
         }
 
 
-        var maxX = new Date(salesData[0].orderDate).getTime()
-        var minX = new Date(salesData[0].orderDate).getTime()
-        var maxY = salesData[0].totalAmount
-        var minY = salesData[0].totalAmount
         for (const element of salesData) {
-            var x = new Date(element.orderDate).getTime()
+            var x = new Date(element.orderDate)
             var y = element.totalAmount
-            var object = {
-                x, y
-            }
-            if (x > parseInt(maxX)) {
-                maxX = x
-            }
-            if (x < parseInt(minX)) {
-                minX = x
-            }
-            if (parseInt(y) > parseInt(maxY)) {
-                maxY = y
-            }
-            if (parseInt(y) < parseInt(minY)) {
-                minY = y
-            }
-            console.log(object)
-            console.log("object")
-            graphData.coordinates.push(object);
-            graphData.maxX = maxX;
-            graphData.maxY = maxY;
-            graphData.minY = minY;
-            graphData.minX = minX;
+            var object = [x, y];
+
+            graphCoordinates.push(object)
         }
-        return graphData;
+
+        console.log("data returned for graph", graphCoordinates)
+        return graphCoordinates;
+        
+
+
     }
     catch (e) {
-        console.log("error in calculateData", e);
+        console.log("error in calculatedData", e);
         return {};
     }
 
 
 }
-module.exports = calculateData;
+module.exports = salesGraphCoordinate;
