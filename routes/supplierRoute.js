@@ -23,7 +23,17 @@ router.get("/supplier/search/:sName?", async (req, res) => {
             { sEmail: { $regex: query } },
         ],
     });
-    return res.json({ success: true, suppliers });
+    return res.json(suppliers);
+})
+
+router.get("/suppliers", async (req, res) => {
+    try {
+        const suppliers = await Supplier.find({});
+        res.json(suppliers);
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("Internal Server Error");
+    }
 })
 
 router.post("/add-supplier", async (req, res) => {

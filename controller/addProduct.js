@@ -48,7 +48,7 @@ const addProduct = async (req, res) => {
         }
       }
 
-      return res.json({ msg: "ProductItem added successfully" });
+      return res.status(200).json({ msg: "ProductItem added successfully" });
     } else {
       try {
 
@@ -66,11 +66,11 @@ const addProduct = async (req, res) => {
         }
       }
 
+      return res.status(200).json({ msg: "New product item added" });
     }
     catch(err){
       return res.status(500).json({ msg: "Internal Server Error | Failed to add product", err });
     }
-      return res.json({ msg: "New product item added" });
     }
   } catch (e) {
     console.error(e);
