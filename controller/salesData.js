@@ -39,13 +39,23 @@ async function specificSalesData(req, res) {
   let dBQ
   if (!req.query.t) {
     const [division, value] = req.params.division.split('=')
+    console.log("division, value \n \n")
+    console.log(division,value)
     dBQ = [
       {
         $unwind: "$products"
       },
       {
+        $lookup: {
+          from: "products",
+          localField: "products.pID",
+          foreignField: "pID",
+          as: "productDetails"
+        },
+      },
+      {
         $match: {
-          [`products.${division}`]: value
+          [`productDetails.${division}`]: value
         }
       },
       {
@@ -89,7 +99,9 @@ async function specificSalesData(req, res) {
     ];
   };
   try {
+    console.log(dBQ)
     const salesData = await Order.aggregate(dBQ);
+    console.log(salesData)
     res.json(salesData);
   } catch (error) {
     console.error(error);
