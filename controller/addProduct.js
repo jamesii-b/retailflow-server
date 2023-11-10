@@ -12,7 +12,10 @@ const addProduct = async (req, res) => {
     return res.status(400).json({ msg: "Invalid product details" });
   }
 
-  console.log(req.body);
+
+  /*   if (!RpID || !RpName) {
+  }
+  else { */
 
   try {
     existingProductGroup = await Product.findOne({ pID: RpID });
@@ -36,7 +39,7 @@ const addProduct = async (req, res) => {
           const existingSupplier = await Supplier.findOne({ sName: product.supplier });
           const productAdd = new ProductItem({
             expireDate: product.expireDate,
-            priceRate: req.body.priceRate || product.priceRate,
+            priceRate: product.priceRate,
             productFamily: newProductGroup._id,
             supplier: existingSupplier.sID,
             productAdded: Date.now(),
@@ -47,13 +50,33 @@ const addProduct = async (req, res) => {
 
       return res.json({ msg: "ProductItem added successfully" });
     } else {
-      console.log("product already exist");
-      return res.json({ msg: "ProductItem already exists" });
+      try {
+
+      for (const product of productDetails) {
+        for (let i = 0; i < product.quantity; i++) {
+          const existingSupplier = await Supplier.findOne({ sName: product.supplier });
+          const productAdd = new ProductItem({
+            expireDate: product.expireDate,
+            priceRate:product.priceRate,
+            productFamily: existingProductGroup._id,
+            supplier: existingSupplier.sID,
+            productAdded: Date.now(),
+          });
+          await productAdd.save();
+        }
+      }
+
+    }
+    catch(err){
+      return res.status(500).json({ msg: "Internal Server Error | Failed to add product", err });
+    }
+      return res.json({ msg: "New product item added" });
     }
   } catch (e) {
     console.error(e);
     return res.status(500).json({ msg: "Internal Server Error | Failed to add product", e });
   }
-};
+}
+
 
 module.exports = addProduct;
