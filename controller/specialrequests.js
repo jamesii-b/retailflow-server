@@ -34,10 +34,21 @@ async function individualRequests(req, res, currentTimestamp, previousTimeStamp)
                 }
             },
             {
+                $group: {
+                    _id: "$orderDate",
+                    orders: {
+                        $push: {
+                            orderID: "$orderID",
+                            products: "$products"
+                        }
+                    }
+                }
+            },
+            {
                 $project: {
-                    orderID: 1,
-                    orderDate: 1,
-                    products: 1
+                    orderDate: "$_id",
+                    orders: 1,
+                    _id: 0
                 }
             }
         ];
