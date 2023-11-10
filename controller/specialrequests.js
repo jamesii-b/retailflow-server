@@ -101,7 +101,20 @@ async function specialRequests(req, res) {
         console.log(previousTimeStamp)
         individualRequests(req, res, currentTimestamp, previousTimeStamp);
 
-    } else {
+    } else if (req.params.timedivision == "thisday") {
+        const currentTimestamp = new Date();
+        currentNepaliDate = new Date(currentTimestamp.toLocaleString('en-US', { timeZone: 'Asia/Kathmandu' }))
+        console.log("currentNepaliDate \n \n")
+        console.log(currentNepaliDate)
+        currentNepaliDate.setHours(0, 0, 0, 0);
+        previousTimeStamp = new Date(currentNepaliDate.toLocaleString('en-US', { timeZone: 'Asia/Kathmandu' }));
+        console.log(currentNepaliDate.toLocaleString('en-US', { timeZone: 'Asia/Kathmandu' }));
+        console.log("currentNepaliDate \n \n")
+        console.log(previousTimeStamp)
+        individualRequests(req, res, currentTimestamp, previousTimeStamp);
+
+    }
+    else {
         res.status(400).json("Invalid time division")
     }
 
