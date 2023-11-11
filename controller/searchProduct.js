@@ -1,8 +1,8 @@
 const Product = require("../models/product");
 const searchProduct = async (req, res) => {
   const searchQuery = req.params.searchQuery;
-  console.log("searchQuery");
-  console.log(searchQuery);
+  // console.log("searchQuery");
+  // console.log(searchQuery);
   if (!searchQuery) {
     const allProducts = await Product.find({});
     return res.json({ success: true, products: allProducts });

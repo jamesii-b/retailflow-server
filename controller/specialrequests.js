@@ -34,21 +34,10 @@ async function individualRequests(req, res, currentTimestamp, previousTimeStamp)
                 }
             },
             {
-                $group: {
-                    _id: "$orderDate",
-                    orders: {
-                        $push: {
-                            orderID: "$orderID",
-                            products: "$products"
-                        }
-                    }
-                }
-            },
-            {
                 $project: {
-                    orderDate: "$_id",
-                    orders: 1,
-                    _id: 0
+                    orderID: 1,
+                    orderDate: 1,
+                    products: 1
                 }
             }
         ];
@@ -115,7 +104,8 @@ async function specialRequests(req, res) {
 
     }
     else {
-        res.status(400).json("Invalid time division")
+        const resData = await Order.find({}).sort({ orderDate: -1 }).exec();
+        res.json(resData);
     }
 
 }

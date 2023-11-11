@@ -1,6 +1,7 @@
 const axios = require("axios");
 const salesGraphCoordinate = require("../function/salesGraphCalculation.js");
-const express = require('express')
+const express = require('express');
+const entireOrderCalculation = require("../function/salesGraphCalculation.js");
 async function salesGraphData(req, res) {
 
     const timeQuery = req.query.t
@@ -17,14 +18,14 @@ async function salesGraphData(req, res) {
         timeFrame = req.params.timeframe
         resSales = await axios.get("http://localhost:5000/special/sales/" + timeFrame)
         console.log(resSales.data)
-        var calculatedData = await salesGraphCoordinate(resSales.data)
+        var calculatedData = await entireOrderCalculation(resSales.data)
         res.json(calculatedData);
 
     }
     else {
         try {
             resSales = await axios.get("http://localhost:5000/sales")
-            var calculatedData = await salesGraphCoordinate(resSales.data)
+            var calculatedData = await entireOrderCalculation(resSales.data)
             res.status(200).send(calculatedData);
         } catch (err) {
             res.status(500).json("Internal Server Error")
@@ -42,35 +43,70 @@ async function specificSalesGraphData(req, res) {
             let coordinates = [];
             const resSales = await axios.get("http://localhost:5000/special/sales/" + timeFrame + "/" + Division);
             console.log("printing the resSales data \n \n \n")
-            // synchronousSales = JSON.stringify(resSales.data)
+            console.log(JSON.stringify(resSales.data))
+            const orderDateTotals = {};
             resSales.data.forEach(element => {
-                var x = new Date(element.orderDate)
-                let sum = 0;
-                sum = element.orders.reduce((sum, item) => {
-                    return sum + item.products.priceRate
-                }, 0)
+                const orderDate = element.orderDate;
+                const totalPrice = element.products.priceRate;
 
-                var object = [x, sum];
-
-                coordinates.push(object)
-
+                // Check if order date already exists in the object
+                if (orderDateTotals[orderDate]) {
+                    // If it exists, add the totalPrice to the existing total
+                    orderDateTotals[orderDate] += totalPrice;
+                } else {
+                    // If it doesn't exist, create a new entry with the totalPrice
+                    orderDateTotals[orderDate] = totalPrice;
+                }
             });
+            coordinates = Object.entries(orderDateTotals).map(([orderDate, totalPrice]) => [
+                new Date(orderDate),
+                totalPrice
+            ]);
             coordinates.sort((a, b) => a[0] - b[0]);
             console.log(coordinates)
             console.log("coordinates")
             res.json(coordinates)
         } catch (err) {
+            console.log(err)
             res.status(500).json("Internal Server Error");
         }
-    } else {
-        res.status(400).json("hello world");
+    } else if (!timeFrame && Division) {
+        try {
+            let coordinates = [];
+            const resSales = await axios.get("http://localhost:5000/sales/" + Division);
+            console.log("printing the resSales data \n \n \n");
+
+            
+            const orderDateTotals = {};
+            resSales.data.forEach(element => {
+                const orderDate = element.orderDate;
+                const totalPrice = element.products.priceRate;
+
+                // Check if order date already exists in the object
+                if (orderDateTotals[orderDate]) {
+                    // If it exists, add the totalPrice to the existing total
+                    orderDateTotals[orderDate] += totalPrice;
+                } else {
+                    // If it doesn't exist, create a new entry with the totalPrice
+                    orderDateTotals[orderDate] = totalPrice;
+                }
+            });
+            coordinates = Object.entries(orderDateTotals).map(([orderDate, totalPrice]) => [
+                new Date(orderDate),
+                totalPrice
+            ]);
+            coordinates.sort((a, b) => a[0] - b[0]);
+            console.log(coordinates)
+            console.log("coordinates")
+            res.json(coordinates)
+        } catch (err) {
+            console.log(err)
+            res.status(500).json("Internal Server Error");
+        }
+    }else{
+        res.status(404).json("Not Found")
     }
 }
 
 module.exports = { specificSalesGraphData, salesGraphData };
 
-
-async function selectedOrderCalculation() {
-
-
-}

@@ -37,7 +37,7 @@ async function getSpecificTypeSalesTurnover(req, res) {
         let turnover = 0;
 
         salesData.forEach(element => {
-            console.log(element.products.priceRate)
+            // console.log(element.products.priceRate)
             turnover += element.products.priceRate;
         });
 
@@ -53,23 +53,40 @@ async function getSpecificTimeSalesTurnover(req, res) {
     if (!otherDiv) {
 
         salesData = await axios.get("http://localhost:5000/special/sales/" + timeDiv)
+        salesData = await salesData.data
+        // console.log(salesData)
+        if (!Array.isArray(salesData) || salesData.length === 0) {
+            // Check if salesData is not an array or is an empty array
+            res.json({ turnover: 0 });
+        } else {
+
+            let totalAmount = 0;
+
+            await salesData.forEach(element => {
+                element.products.forEach(product => {
+                    totalAmount += product.priceRate;
+                });
+            });
+            res.status(200).json({ turnover: totalAmount });
+        }
     } else {
         salesData = await axios.get("http://localhost:5000/special/sales/" + timeDiv + "/" + otherDiv)
-    }
-    salesData = await salesData.data
-    // console.log(salesData)
-    if (Array.isArray(salesData)) {
-        let totalAmount = 0;
+        salesData = await salesData.data
+        // console.log(salesData)
+        if (!Array.isArray(salesData) || salesData.length === 0) {
+            // Check if salesData is not an array or is an empty array
+            res.json({ turnover: 0 });
+        } else {
+            let totalAmount = 0;
 
-        await salesData.forEach(element => {
-            element.products.forEach(product => {
-                totalAmount += product.priceRate;
+            await salesData.forEach(element => {
+                // console.log(element.products["priceRate"]);
+                totalAmount += parseInt(element.products["priceRate"]);
             });
-        });
-
-        res.json({ turnover: totalAmount });
-    } else {
-        res.status(400).json({ error: "Invalid or empty sales data" });
+            res.status(200).json({ turnover: totalAmount });
+        }
     }
+
+
 }
 module.exports = { getAllTurnoverData, getSpecificTypeSalesTurnover, getSpecificTimeSalesTurnover }

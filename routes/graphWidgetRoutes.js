@@ -5,7 +5,7 @@ const { salesGraphData, specificSalesGraphData } = require("../controller/graphS
 const getTopSellingProductData = require("../controller/topSellingProduct");
 const { mostSellingCategory, mostSellingProduct } = require("../controller/widgets")
 router.get("/graph/sales/:timeframe?", salesGraphData);
-router.get("/product/graph/sales/:division/:timeframe", specificSalesGraphData);
+router.get("/graph/product/sales/:division/:timeframe?", specificSalesGraphData);
 
 router.get("/graph/topselling/product", mostSellingProduct)
 router.get("/graph/topselling/category", mostSellingCategory)
