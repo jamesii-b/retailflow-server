@@ -6,40 +6,30 @@ async function mostSellingProduct(req, res) {
     allProducts = allproductResponse.data["products"]
 
     allProductsConvertedDatum = []
-
+    storage = []
 
     for (const element of allProducts) {
         const currentID = element["pID"]
 
         individualTurnover = await axios.get("http://localhost:5000/turnover/sales/pID=" + currentID)
-        allProductsConvertedDatum.push([individualTurnover.data["turnover"], element["pName"]])
+        storage.push({ turnover: individualTurnover.data["turnover"], pName: element["pName"] })
     }
-    allProductsConvertedDatum.sort(function (a, b) {
-        return a[0] - b[0];
-    });
-    allProductsConvertedDatum.reverse()
+    console.log(storage)
+    console.log("storage \n \n")
 
     totalTurnoverrequest = await axios.get("http://localhost:5000/turnover/sales")
     totalTurnvoer = totalTurnoverrequest.data["turnover"]
 
-    for (const element of allProductsConvertedDatum) {
-        console.log(element[0])
-        const percentage = (element[0] / totalTurnvoer) * 100
-        if (percentage < 0.01) {
-            const indexToRemove = allProductsConvertedDatum.indexOf(element);
-            allProductsConvertedDatum.splice(indexToRemove, 1);
-        } else {
-
-            element.push(percentage.toFixed(2))
+    for (const element of storage) {
+        const percentage = (element["turnover"] / totalTurnvoer) * 100
+        if (percentage > 0.01) {
+            console.log("pusihing")
+            allProductsConvertedDatum.push([element["pName"], percentage.toFixed(2),])
         }
     }
 
-
-
-
     res.status(200).send(allProductsConvertedDatum)
 
-    console.log(allProductsConvertedDatum)
 
 }
 
