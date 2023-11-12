@@ -4,6 +4,7 @@ const Supplier = require("../models/supplier");
 const express = require("express");
 const router = express.Router();
 const { DateTime } = require("luxon");
+const CreditandDebit = require("../models/creditanddebitNote");
 
 
 router.get("/supplier/search/:sName?", async (req, res) => {
@@ -118,5 +119,43 @@ router.get("/expire/supplier/", async (req, res) => {
 
 );
 
+
+router.post("/creditanddebit/supplier", async (req, res) => {
+    /*     {
+            sID: '1699293388887',
+            accounting: 'Credit',
+            amount: '50000',
+            gateway: 'Cash',
+            date: '2023-11-12 09:19:46'
+          } */
+    try {
+        console.log(req.body)
+        const entry = new CreditandDebit({
+            sID: req.body.sID,
+            amount: req.body.amount,
+            paymentMethod: req.body.gateway,
+            datedOn: req.body.date,
+            accounting: req.body.accounting
+        })
+        await entry.save();
+        if (req.body.accounting === "credit" || "Credit") {
+            await Supplier.findOneAndUpdate({ sID: req.body.sID }, { $push: { creditNote: entry._id } });
+            res.status(200).send("Success")
+        } else if (
+            req.body.accounting === "debit" || "Debit"
+        ) {
+            await Supplier.findByIdAndUpdate(sID, { $push: { debitNote: entry._id } });
+
+            res.status(200).send("Success")
+        } else {
+            res.status(400).send("Something Went wrong");
+        }
+
+    } catch (err) {
+        console.log(err)
+        res.status(500).send("Internal Server Error");
+    }
+
+})
 
 module.exports = router;

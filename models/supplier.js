@@ -17,6 +17,18 @@ const supplierSchema = new mongoose.Schema({
   sEmail: {
     type: String,
   },
+  creditNote: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "CreditNote",
+    },
+  ],
+  debitNote: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "DebitNote",
+    },
+  ],
 });
 
 module.exports = mongoose.model("Supplier", supplierSchema);
