@@ -38,14 +38,15 @@ async function sendNotificationIfExpiryItemsChanged(url) {
       }
     });
   } catch (error) {
-    console.log("error here");
+    // console.log("error here");
     console.log(error);
   }
 }
 
-// Schedule the cron job to periodically check the inventory and send notifications
-cron.schedule("* * * * * *", () => {
+// Schedule the cron job to 8 am periodically check the inventory and send notifications
+cron.schedule("0 8 * * *", () => {
   sendNotificationIfExpiryItemsChanged(url);
 });
+
 
 module.exports = sendNotificationIfExpiryItemsChanged;
