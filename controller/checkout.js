@@ -8,16 +8,16 @@ const checkout = async (req, res) => {
   try {
     console.log("req.body")
     console.log(req.body)
-    if (!Array.isArray(req.body)) {
-      return res.status(400).json({ msg: "Request body should be an array" });
-    }
+    // if (!Array.isArray(req.body)) {
+    //   return res.status(400).json({ msg: "Request body should be an array" });
+    // }
 
     const itemsToSave = []
     var totalPrice = 0;
-    console.log(req.body)
-    console.log("req.body.orderDate", req.body.orderDate)
-    for (const element of (req.body)) {
-      console.log(element);
+    // console.log(req.body)
+    // console.log("req.body.orderDate", req.body.orderDate)
+    for (const element of (req.body["checkoutIDs"])) {
+      // console.log(element);
       const Response = await axios.get(`http://localhost:5000/product/${element}`);
 
       if (!Response.data.productItem) {
@@ -39,7 +39,7 @@ const checkout = async (req, res) => {
         totalPrice += parseInt(productItem.priceRate);
         await itemsToSave.push(orderCreate);
         await ProductItem.findOneAndDelete({ ID: element }).then((result) => {
-          console.log("deleted");
+          // console.log("deleted");
         });
       } catch (e) {
         console.error(e);
@@ -49,6 +49,7 @@ const checkout = async (req, res) => {
 
 
     const newOrder = new Order({
+      orderID: req.body["billID"],
       totalAmount: parseInt(totalPrice),
       products: itemsToSave,
       orderDate: Date.now(),
