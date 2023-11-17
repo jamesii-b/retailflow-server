@@ -12,7 +12,7 @@ const addProduct = async (req, res) => {
     return res.status(400).json({ msg: "Invalid product details" });
   }
 
-
+  productIDtoSend = [];
   /*   if (!RpID || !RpName) {
   }
   else { */
@@ -38,39 +38,48 @@ const addProduct = async (req, res) => {
         for (let i = 0; i < product.quantity; i++) {
           const existingSupplier = await Supplier.findOne({ sName: product.supplier });
           const productAdd = new ProductItem({
+            ID: parseInt(Date.now().toString()) + parseInt(Math.random() * 10000).toString(),
             expireDate: product.expireDate,
             priceRate: product.priceRate,
             productFamily: newProductGroup._id,
             supplier: existingSupplier.sID,
             productAdded: Date.now(),
           });
+          productIDtoSend.push(productAdd.ID);
           await productAdd.save();
         }
+        productIDtoSend.push('', '', '', '', '');
       }
+      console.log("data sent", productIDtoSend);
 
-      return res.status(200).json({ msg: "ProductItem added successfully" });
+      return res.status(200).json(productIDtoSend);
     } else {
       try {
 
-      for (const product of productDetails) {
-        for (let i = 0; i < product.quantity; i++) {
-          const existingSupplier = await Supplier.findOne({ sName: product.supplier });
-          const productAdd = new ProductItem({
-            expireDate: product.expireDate,
-            priceRate:product.priceRate,
-            productFamily: existingProductGroup._id,
-            supplier: existingSupplier.sID,
-            productAdded: Date.now(),
-          });
-          await productAdd.save();
-        }
-      }
+        for (const product of productDetails) {
+          for (let i = 0; i < product.quantity; i++) {
+            const existingSupplier = await Supplier.findOne({ sName: product.supplier });
+            const productAdd = new ProductItem({
+              expireDate: product.expireDate,
+              priceRate: product.priceRate,
+              productFamily: existingProductGroup._id,
+              supplier: existingSupplier.sID,
+              productAdded: Date.now(),
+            });
+            await productAdd.save();
+            productIDtoSend.push(productAdd.ID);
 
-      return res.status(200).json({ msg: "New product item added" });
-    }
-    catch(err){
-      return res.status(500).json({ msg: "Internal Server Error | Failed to add product", err });
-    }
+          }
+          productIDtoSend.push('', '', '', '', '');
+
+        }
+
+        console.log("data sent", productIDtoSend);
+        return res.status(200).json(productIDtoSend);
+      }
+      catch (err) {
+        return res.status(500).json({ msg: "Internal Server Error | Failed to add product", err });
+      }
     }
   } catch (e) {
     console.error(e);
