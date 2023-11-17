@@ -20,13 +20,13 @@ const supplierSchema = new mongoose.Schema({
   creditNote: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "CreditNote",
+      ref: "Credit",
     },
   ],
   debitNote: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "DebitNote",
+      ref: "Debit",
     },
   ],
 });

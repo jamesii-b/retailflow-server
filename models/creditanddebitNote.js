@@ -1,12 +1,35 @@
 const mongoose = require('mongoose');
 
-const CandDschema = new mongoose.Schema({
+const CreditSchema = new mongoose.Schema({
     sID: {
         type: String,
         required: true
     },
-    accounting: {
+
+    amount: {
+        type: Number,
+        required: true
+    },
+
+    paymentMethod: {
         type: String,
+        default: 'bankTransfer',
+    },
+    createdTime: {
+        type: Date,
+        default: Date.now()
+    },
+    datedOn: {
+        type: Date,
+        required: true,
+    }
+
+})
+
+const DebitSchema = new mongoose.Schema({
+    sID: {
+        type: String,
+        required: true
     },
     amount: {
         type: Number,
@@ -27,4 +50,6 @@ const CandDschema = new mongoose.Schema({
     }
 
 })
-module.exports = mongoose.model('CreditandDebit', CandDschema);
+Credit = mongoose.model('Credit', CreditSchema);
+Debit = mongoose.model('Debit', DebitSchema);
+module.exports = { Credit, Debit }

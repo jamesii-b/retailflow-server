@@ -13,6 +13,7 @@ async function dbConnection() {
 dbConnection();
 app.use((req, res, next) => {
   console.log(`Request URL: ${req.url}`);
+  console.log(`Request Body:${JSON.stringify(req.body)}`);
   next(); // Continue with the request handling
 });
 const productRoute = require("./routes/productRoute");
@@ -23,8 +24,7 @@ app.use("/", require("./routes/graphWidgetRoutes"));
 
 const notifyQuantity = require("./routes/notifyQuantity");
 app.use("/notifyadmin", notifyQuantity);
-const notifyExpiry = require("./routes/notifyExpiry");
-app.use("/notifyadmin", notifyExpiry);
+app.use("/", require("./routes/Expiry"));
 const sendNotificationIfLowItemsChanged = require("./config/autonotifyLowItems");
 const sendNotificationIfExpiryItemsChanged = require("./config/autonotifyExpiryItems");
 // sendNotificationIfExpiryItemsChanged("http://localhost:5000/notifyadmin/expiry");
@@ -34,6 +34,8 @@ app.use("/", require("./routes/functionalities"));
 app.use("/", require("./routes/pdfGeneration"));
 
 app.use("/", require("./routes/supplierRoute"));
+
+app.use("/report", require("./routes/reportsRoute"))
 
 
 

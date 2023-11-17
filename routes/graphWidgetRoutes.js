@@ -90,7 +90,20 @@ router.get("/graph/inventory", async (req, res) => {
 
         let percentage = (element["totalQuantity"] / netQuantity) * 100
         console.log(percentage)
-        allConvertedDatum.push([element["pName"], percentage.toFixed(2)])
+        let count = 0;
+        allConvertedDatum.forEach((item) => {
+
+            if (element["pName"] === item[0]) {
+                count++;
+                item[1] = (parseInt(item[1]) + parseFloat(percentage.toFixed(2))).toString();
+
+            }
+
+
+        })
+        if (count == 0) {
+            allConvertedDatum.push([element["pName"], percentage.toFixed(2)])
+        }
 
     }
 
