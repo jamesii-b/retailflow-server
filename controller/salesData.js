@@ -15,9 +15,9 @@ async function getAllSalesData(req, res) {
   } else {
     const query = req.query.t
     dateArr = await returnDate(query)
-    console.log("date arr is", dateArr)
+    // console.log("date arr is", dateArr)
     startDate = dateArr[0]
-    console.log(startDate)
+    // console.log(startDate)
     endDate = dateArr[1]
     const dateQuery = {
       orderDate: startDate > endDate ? { $gte: endDate, $lte: startDate } : { $gte: startDate, $lte: endDate },
@@ -39,8 +39,8 @@ async function specificSalesData(req, res) {
   let dBQ
   if (!req.query.t) {
     const [division, value] = req.params.division.split('=')
-    console.log("division, value \n \n")
-    console.log(division, value)
+    // console.log("division, value \n \n")
+    // console.log(division, value)
     dBQ = [
       {
         $unwind: "$products"

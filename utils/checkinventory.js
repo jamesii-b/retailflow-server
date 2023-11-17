@@ -2,7 +2,7 @@
 const Product = require("../models/product");
 const groupedData = require("../utils/groupedData.js")
 async function checkInventory(returnData) {
-  console.log("isnide checkInventory")
+  // console.log("isnide checkInventory")
   try {
     const productData = await Product.find();
     const lowItems = [];

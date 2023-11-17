@@ -3,7 +3,7 @@
 function getymd() {
 
     const now = new Date();
-    console.log(now)
+    // console.log(now)
     const year = now.getUTCFullYear();
     const month = now.getUTCMonth();
     const day = now.getUTCDay();

@@ -9,7 +9,7 @@ when we have entire order, we don't need to calculate anything, just return the 
         const graphCoordinates = [];
 
         if (!Array.isArray(salesData) || salesData.length === 0) {
-            console.log("Invalid or empty salesData array");
+            // console.log("Invalid or empty salesData array");
             return {}
         }
 
@@ -26,7 +26,7 @@ when we have entire order, we don't need to calculate anything, just return the 
             }
         }
 
-        console.log("data returned for graph", graphCoordinates)
+        // console.log("data returned for graph", graphCoordinates)
         return graphCoordinates;
 
 

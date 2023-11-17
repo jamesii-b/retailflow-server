@@ -25,7 +25,6 @@ const getProductsbySubCat = async (req, res) => {
 const getSpecificProduct = async (req, res) => {
   // console.log(req.query)
   if (!req.query.short) {
-    console.log("inside long")
     try {
       const ID = req.params.id;
       const productItem = await ProductItem.find({ ID: ID }).populate("productFamily");
@@ -44,7 +43,7 @@ const getSpecificProduct = async (req, res) => {
       });
     }
   } else {
-    console.log("inside short")
+    // console.log("inside short")
     try {
       const ID = req.params.id;
       const productItem = await ProductItem.findOne({ ID: ID })

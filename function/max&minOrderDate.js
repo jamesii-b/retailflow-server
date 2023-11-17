@@ -5,7 +5,7 @@ async function maxandmindate(query) {
         /* calculate oldest date*/
         await Order.find({}).select('orderDate').sort('orderDate').limit(1).then((data) => {
             newdate = data[0].orderDate;
-            console.log(data[0].orderDate);
+            // console.log(data[0].orderDate);
         }).catch((err) => {
             console.log(err);
         })
@@ -15,7 +15,7 @@ async function maxandmindate(query) {
         /* calculate newest date */
         await Order.find({}).select('orderDate').sort('-orderDate').limit(1).then((data) => {
             olddate = data[0].orderDate;
-            console.log(data[0].orderDate);
+            // console.log(data[0].orderDate);
         }).catch((err) => {
             console.log(err);
         })

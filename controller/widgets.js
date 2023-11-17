@@ -14,8 +14,8 @@ async function mostSellingProduct(req, res) {
         individualTurnover = await axios.get("http://localhost:5000/turnover/sales/pID=" + currentID)
         storage.push({ turnover: individualTurnover.data["turnover"], pName: element["pName"] })
     }
-    console.log(storage)
-    console.log("storage \n \n")
+    // console.log(storage)
+    // console.log("storage \n \n")
 
     totalTurnoverrequest = await axios.get("http://localhost:5000/turnover/sales")
     totalTurnvoer = totalTurnoverrequest.data["turnover"]
@@ -23,7 +23,7 @@ async function mostSellingProduct(req, res) {
     for (const element of storage) {
         const percentage = (element["turnover"] / totalTurnvoer) * 100
         if (percentage > 0.01) {
-            console.log("pusihing")
+            // console.log("pusihing")
             allProductsConvertedDatum.push([element["pName"], percentage.toFixed(2),])
         }
     }
@@ -56,7 +56,7 @@ async function mostSellingCategory(req, res) {
     totalTurnvoer = totalTurnoverrequest.data["turnover"]
 
     for (const element of allCategoryConvertedDatum) {
-        console.log(element[0])
+        // console.log(element[0])
         const percentage = (element[0] / totalTurnvoer) * 100
         element.push(percentage.toFixed(2))
     }
@@ -66,7 +66,7 @@ async function mostSellingCategory(req, res) {
 
     res.status(200).send(allCategoryConvertedDatum)
 
-    console.log(allCategoryConvertedDatum)
+    // console.log(allCategoryConvertedDatum)
 
 
 }

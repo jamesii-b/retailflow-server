@@ -3,7 +3,7 @@ mailData = `<center><h1>Cavetown Mart</h1></center><h3>Hi Admin,</h3><br /><div>
 const recepient = process.env.ADMIN_EMAIL;
 const subject = "Items Expiring Soon !";
 const text = "Items Expiring Soon";
-const checkExpiry = require("../utils/checkExpiry.js");
+const {checkAllExpiry,checkExpiredorExpiring} = require("../utils/checkExpiry.js");
 const sendMail = require("../utils/sendMail.js");
 async function concatdata(resObj) {
   for (i in resObj) {
@@ -18,7 +18,8 @@ async function concatdata(resObj) {
 
 const notifyExpiry = async (req, res) => {
   try {
-   const resObj = await checkExpiry();
+  //  const resObj = await checkExpiredorExpiring();
+   const resObj = await checkAllExpiry();
   //  console.log("Sending expiry email", resObj);
   //  concatdata(resObj);
   //  sendMail(recepient, mailData, subject, text);

@@ -17,7 +17,6 @@ async function salesGraphData(req, res) {
     } else if (req.params.timeframe) {
         timeFrame = req.params.timeframe
         resSales = await axios.get("http://localhost:5000/special/sales/" + timeFrame)
-        console.log(resSales.data)
         var calculatedData = await entireOrderCalculation(resSales.data)
         res.json(calculatedData);
 
@@ -42,8 +41,6 @@ async function specificSalesGraphData(req, res) {
         try {
             let coordinates = [];
             const resSales = await axios.get("http://localhost:5000/special/sales/" + timeFrame + "/" + Division);
-            console.log("printing the resSales data \n \n \n")
-            console.log(JSON.stringify(resSales.data))
             const orderDateTotals = {};
             resSales.data.forEach(element => {
                 const orderDate = element.orderDate;
@@ -63,8 +60,8 @@ async function specificSalesGraphData(req, res) {
                 totalPrice
             ]);
             coordinates.sort((a, b) => a[0] - b[0]);
-            console.log(coordinates)
-            console.log("coordinates")
+            // console.log(coordinates)
+            // console.log("coordinates")
             res.json(coordinates)
         } catch (err) {
             console.log(err)
@@ -74,7 +71,6 @@ async function specificSalesGraphData(req, res) {
         try {
             let coordinates = [];
             const resSales = await axios.get("http://localhost:5000/sales/" + Division);
-            console.log("printing the resSales data \n \n \n");
 
             
             const orderDateTotals = {};
@@ -96,8 +92,8 @@ async function specificSalesGraphData(req, res) {
                 totalPrice
             ]);
             coordinates.sort((a, b) => a[0] - b[0]);
-            console.log(coordinates)
-            console.log("coordinates")
+            // console.log(coordinates)
+            // console.log("coordinates")
             res.json(coordinates)
         } catch (err) {
             console.log(err)

@@ -40,7 +40,7 @@ router.get('/similarproduct/:pID', async (req, res) => {
                 }
             }
         }
-        console.log("same name is", sameName)
+        // console.log("same name is", sameName)
 
         if (toSendArray.length < 3) {
             const similarProducts = await Product.find({
@@ -62,18 +62,18 @@ router.get('/similarproduct/:pID', async (req, res) => {
                     }
                 }
             }
-            console.log("after adding similar products", toSendArray)
+            // console.log("after adding similar products", toSendArray)
             if (toSendArray.length < 3) {
                 const randomProducts = await Product.aggregate
                     ([
                         { $match: { pID: { $ne: targetProduct.pID } } }, // Exclude the target product
                         { $limit: 3 }
                     ]);
-                console.log("randomProducts")
-                console.log(randomProducts)
-                console.log(" \n \n \n")
+                // console.log("randomProducts")
+                // console.log(randomProducts)
+                // console.log(" \n \n \n")
                 for (const element of randomProducts) {
-                    console.log("element is", element)
+                    // console.log("element is", element)
                     if (!toSendArray.some(item => item.pID === element.pID) && toSendArray.length < 3) {
                         toSendArray.push(element)
                     }
