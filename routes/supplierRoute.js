@@ -4,13 +4,13 @@ const Supplier = require("../models/supplier");
 const express = require("express");
 const router = express.Router();
 const { DateTime } = require("luxon");
-const CreditandDebit = require("../models/creditanddebitNote");
+const { Credit, Debit } = require("../models/creditanddebitNote")
 
 
 router.get("/supplier/search/:sName?", async (req, res) => {
 
     const searchQuery = req.params.sName;
-    console.log("sName");
+    // console.log("sName");
     if (!searchQuery) {
         const suppliers = await Supplier.find({});
         return res.json({ success: true, suppliers });
@@ -57,13 +57,17 @@ router.post("/add-supplier", async (req, res) => {
 router.get("/supplier/:sID", async (req, res) => {
     const ID = req.params.sID;
     try {
-        const supplierData = await Supplier.findOne({ sID: ID }); // Declare supplierData with `const` and use `await` to wait for the result
+        // const supplierData = await Supplier.findOne({ sID: ID }); // Declare supplierData with `const` and use `await` to wait for the result
+        const supplierData = await Supplier.find({ sID: ID }).populate("creditNote", "amount paymentMehod createdTime datedOn").populate("debitNote", "amount paymentMehod createdTime datedOn");
+
         if (supplierData) {
             res.json(supplierData);
         } else {
             res.status(500).send("Supplier not found"); // Use `res.status(500)` to set the response status code and `send` to send a response
+
         }
     } catch (err) {
+        console.log(err);
         res.status(500).send("Internal Server Error"); // Handle errors by setting the status code and sending an error message
     }
 });
@@ -81,9 +85,9 @@ router.get("/expire/supplier/", async (req, res) => {
             for (const individualItem of ItemData) {
                 const expiryDate = DateTime.fromJSDate(individualItem.expireDate).toISODate();
                 // const today = DateTime.now().toISODate();
-                console.log("\n \n")
-                console.log(individualItem)
-                console.log("\n \n")
+                // console.log("\n \n")
+                // console.log(individualItem)
+                // console.log("\n \n")
                 const supplier = individualItem.supplier; // Get the supplier name
 
                 // const diff = DateTime.fromJSDate(individualItem.expireDate)
@@ -129,22 +133,33 @@ router.post("/creditanddebit/supplier", async (req, res) => {
             date: '2023-11-12 09:19:46'
           } */
     try {
-        console.log(req.body)
-        const entry = new CreditandDebit({
-            sID: req.body.sID,
-            amount: req.body.amount,
-            paymentMethod: req.body.gateway,
-            datedOn: req.body.date,
-            accounting: req.body.accounting
-        })
-        await entry.save();
-        if (req.body.accounting === "credit" || "Credit") {
+        // console.log(req.body)
+
+        if (req.body.accounting.toUpperCase() == "CREDIT") {
+            console.log("inside credit")
+            console.log("here request body", req.body.accounting.toUpperCase())
+            console.log("here request body", req.body["accounting"])
+            const entry = new Credit({
+                sID: req.body.sID,
+                amount: req.body.amount,
+                paymentMethod: req.body.gateway,
+                datedOn: req.body.date,
+                accounting: req.body.accounting
+            })
+            await entry.save();
             await Supplier.findOneAndUpdate({ sID: req.body.sID }, { $push: { creditNote: entry._id } });
             res.status(200).send("Success")
-        } else if (
-            req.body.accounting === "debit" || "Debit"
-        ) {
-            await Supplier.findByIdAndUpdate(sID, { $push: { debitNote: entry._id } });
+        } else if (req.body.accounting.toUpperCase() == "DEBIT") {
+            console.log("inside debit")
+            const entry = new Debit({
+                sID: req.body.sID,
+                amount: req.body.amount,
+                paymentMethod: req.body.gateway,
+                datedOn: req.body.date,
+                accounting: req.body.accounting
+            })
+            await entry.save();
+            await Supplier.findOneAndUpdate({ sID: req.body.sID }, { $push: { debitNote: entry._id } });
 
             res.status(200).send("Success")
         } else {
@@ -153,6 +168,20 @@ router.post("/creditanddebit/supplier", async (req, res) => {
 
     } catch (err) {
         console.log(err)
+        res.status(500).send("Internal Server Error");
+    }
+
+})
+
+
+router.get("/creditanddebit/:supplierID", async (req, res) => {
+    sID = req.params.supplierID
+    creditanddebit = []
+    try {
+        const credit = await Supplier.find({ sID: sID }).populate("creditNote", "amount paymentMehod createdTime datedOn").populate("debitNote", "amount paymentMehod createdTime datedOn");
+        res.json(credit);
+    } catch (err) {
+        console.log(err);
         res.status(500).send("Internal Server Error");
     }
 
