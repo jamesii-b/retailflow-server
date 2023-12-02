@@ -31,7 +31,7 @@ const sendNotificationIfExpiryItemsChanged = require("./config/autonotifyExpiryI
 // sendNotificationIfLowItemsChanged("http://localhost:5000/notifyadmin/quantity");
 
 app.use("/", require("./routes/functionalities"));
-app.use("/", require("./routes/pdfGeneration"));
+// app.use("/", require("./routes/pdfGeneration"));
 
 app.use("/", require("./routes/supplierRoute"));
 
