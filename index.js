@@ -38,7 +38,7 @@ app.use("/", require("./routes/supplierRoute"));
 app.use("/report", require("./routes/reportsRoute"))
 
 
-
+/* 
 // ws here ~
 //websockets
 const http = require("http");
@@ -83,13 +83,34 @@ server.listen(5000, () => {
   console.log("websocket on port 5000");
   console.log("ws://localhost:5000");
 });
-
+ */
 
 app.get("/", (req, res) => {
   res.send("welcome to nodejs web server")
 })
 // const PORT = 5000;
-// app.listen(5000 || process.env., () => {
-//   console.log("server is running on port 5000");
-//   console.log("http://localhost:5000");
-// });
+app.listen(5000, () => {
+  console.log("server is running on port 5000");
+  console.log("http://localhost:5000");
+});
+
+
+const { ApolloServer } = require('apollo-server');
+const server = new ApolloServer({
+  typeDefs: require('./graphql/typeDefs'),
+  resolvers: require('./graphql/resolvers'),
+})
+
+server.listen(4000).then(({ url }) => {
+  console.log(`🚀  Server ready at ${url}`);
+});
+const mongoose = require("mongoose");
+mongoose
+  .connect(process.env.URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then((conn) => {
+    console.log("connection success");
+  })
+  .catch((error) => {
+    console.log(error);
+    console.log("error");
+  });
