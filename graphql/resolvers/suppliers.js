@@ -1,11 +1,10 @@
-const Supplier = require("../models/supplier");
-
+const Supplier = require("../../models/supplier");
 
 module.exports = {
     Query: {
         async getSuppliers() {
             try {
-                const suppliers = await Supplier.find().limit(4);
+                const suppliers = await Supplier.find();
                 return suppliers;
             }
             catch (err) {
@@ -39,4 +38,5 @@ module.exports = {
             }
         }
     }
+    ,
 }

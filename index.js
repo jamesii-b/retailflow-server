@@ -97,8 +97,8 @@ app.listen(5000, () => {
 
 const { ApolloServer } = require('apollo-server');
 const server = new ApolloServer({
-  typeDefs: require('./graphql/typeDefs'),
-  resolvers: require('./graphql/resolvers'),
+  typeDefs:[ require('./graphql/typedefs/products'),require('./graphql/typedefs/suppliers')],
+  resolvers: [require('./graphql/resolvers/products'),require('./graphql/resolvers/suppliers')],
 })
 
 server.listen(4000).then(({ url }) => {
