@@ -1,102 +1,29 @@
-# Nodejs-ERP
+# Retailflow-Server
 
-This is a backend system built for the frontend of ERP and POS system. 
+A Nodejs-Express App
 
-
-## Routes
-
-
-### Product Essentials
-`/add-product` <br>
-`/sales`
-`/sales/division` | Eg : ```/sales/pName=Marshmello``` <br>
-`/sales/division?t=2023_10_20` ||  ```/sales/division? t=2023_10_20to2023_10_30``` -> Optional <br>
-`/checkout`
-
-
-### Product Details
-`/products`
-`/product/id`eg: `/product/123131`
-`/search/:searchQuery?`
-`/products/:cat`
-`/products/:subCat`
-`/product/:id?short=true`-> this sends specificly populated data for checkout in order to reduce latency.
-
-### Graph Dataum & Widgests Routes
-
-`/salesgraph` <br>
-`/salesgraph/divison` | Eg: ```/salesgraph/pName=Marshmello```
-
-### Expiry & Low Items
-
-`/notifyadmin/expiry` <br>
-`/notifyadmin/quantity` 
-
-## API Reference
-
-### `Checkout`
-
-```http
-  POST /checkout
+## Environment Variables 💻
+```
+MONGO_URI==your_mongoDB_URI
+ADMIN_EMAIL==admin_email_to_recieve_mail
+EMAIL==your_email_to_send_mail
+PASSWORD==your_email_password
+PORT==port_number
+apolloPort==port_number
 ```
 
-It accepts the data as as <br>
+### Tips 📝
+- Generate node-mailer login Password. You can do that [here](https://myaccount.google.com/apppasswords)
+- If you are using Docker in windows, create a file called `.wslconfig` in your current user home directory and add the following content:
+ ```
+[wsl2]
+memory=8GB // your memory
+processors=8 // your processor cores
 ```
-[ "1698000485604","1698000485604" ]
-```
-<br> Here these datum are individual product id.
+Else, the docker will make your pc unusable due to excessive memory,cpu usage.
 
-
-### `Add-Product`
-
-
-```http
-  POST /add-product
-```
-Here, It expects data as: 
-```
-{
-  "pID": '441144',
-  "pName": 'JBL Headphone T450BT',
-  "threshold": '100',
-  "category": 'cat',
-  "subCategory": 'subCat',
-  "selfLocation": 'selfLoc',
-  "image": 'img',
-  "size": 'size',
-  "sName": 'sName',
-  "otherAttribute": 'others',
-  "products": [ { "quantity": '150', "expireDate": '2023-12-22',"supplier": "111B Supplier","priceRate":150 },
-  { "quantity": '150', "expireDate": '2023-10-22',"supplier": "111B Supplier","priceRate":150 } ]
-}
-```
-
-### `Sales Graph Data`
-
-```http
-/salesgraph?t=2023-01-20to2023-02-20
-```
-
-
-```http
-/salesgraph/:division
-```
-
-
-## Environment Variables
-
-To run this project, you will need to add the following environment variables to your .env file
-
-Mongodb URL -> `URI`
-
-Email to Notify -> `ADMIN_EMAIL`
-
-`EMAIL`
-
-`PASSWORD`
-
-## Tech Stack
-
-
-**Server:** Node, Express, Mongoose
-
+### Run 🏃‍♂️
+- `git clone https://jamesii-b/retaiflow-server.git`
+- `cd retailflow-server`
+- `docker-compose build`
+- `docker-compose up`

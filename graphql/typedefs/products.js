@@ -6,6 +6,10 @@ type Product{
     pID: String
     pName: String
     category: String
+
+    subCategory: String
+    threshold: Int
+
 }
 type Query{
     getProducts: [Product]
